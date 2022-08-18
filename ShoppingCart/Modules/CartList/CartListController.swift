@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CartListController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
