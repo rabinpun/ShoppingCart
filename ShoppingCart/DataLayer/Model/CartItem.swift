@@ -10,6 +10,7 @@ import CoreData
 
 @objc(CartItem)
 class CartItem : NSManagedObject {
+    @NSManaged var itemId: String
     @NSManaged var name: String
     @NSManaged var image: String?
     @NSManaged var tax: Float
@@ -19,7 +20,18 @@ class CartItem : NSManagedObject {
 
 extension CartItem {
     
-    struct Object {
+    struct Object: DatabaseObjectRepresentation {
+        func updateObject(_ object: CartItem) {
+            object.name = name
+            object.tax = tax
+            object.price = price
+            object.image = image
+            object.quantity = quantity
+        }
+        
+        typealias Entity = CartItem
+        
+        let id: String
         let name: String
         let image: String?
         let tax: Float
@@ -27,8 +39,12 @@ extension CartItem {
         let price: Float
     }
     
-    func getObject() -> Object {
-        Object(name: name, image: image, tax: tax, quantity: quantity, price: price)
-    }
-    
 }
+
+extension CartItem: DatabaseObject {
+    func createObject() -> Object {
+        Object(id: itemId, name: name, image: image, tax: tax, quantity: quantity, price: price)
+    }
+}
+
+
