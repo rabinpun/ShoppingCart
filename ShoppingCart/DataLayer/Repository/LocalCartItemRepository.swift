@@ -8,18 +8,19 @@
 import Foundation
 
 protocol Repository {
-    associatedtype Object
+    associatedtype Entity: DatabaseObject
     
-    func create(_ object: Object)
-    func find(_ predicate: NSPredicate) -> Object?
-    func update(_ object: Object)
-    func delete(_ object: Object)
+    func create(_ object: Entity.Object)
+    func find(_ predicate: NSPredicate) -> Entity.Object?
+    func update(_ predicate: NSPredicate,_ object: Entity.Object)
+    func delete(_ predicate: NSPredicate)
 }
 
+//protocol CartItemRepository: Repository where Object == CartItem.Object { }
 
-class LocalCartItemRepository: Repository {
+class LocalRepository<T: DatabaseObject>: Repository {
     
-    typealias Object = CartItem.Object
+    typealias Entity = T
     
     private let storageProvider: StorageProvider
     
@@ -27,21 +28,22 @@ class LocalCartItemRepository: Repository {
         self.storageProvider = storageProvider
     }
     
-    func create(_ object: CartItem.Object) {
+    func create(_ object: Entity.Object) {
         storageProvider.create(object)
     }
     
-    func find(_ predicate: NSPredicate) -> CartItem.Object? {
+    func find(_ predicate: NSPredicate) -> Entity.Object? {
         storageProvider.find(predicate)
     }
     
-    func update(_ object: CartItem.Object) {
-        storageProvider.update(NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id), object)
+    func update(_ predicate: NSPredicate,_ object: Entity.Object) {
+        //NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
+        storageProvider.update(predicate, object)
     }
     
-    func delete(_ object: CartItem.Object) {
-        storageProvider.delete(predicate: NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id), type: CartItem.Object.self)
+    func delete(_ predicate: NSPredicate) {
+        //NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
+        storageProvider.delete(predicate: predicate, type: Entity.Object.self)
     }
-    
     
 }
