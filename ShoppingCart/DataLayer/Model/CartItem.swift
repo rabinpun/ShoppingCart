@@ -16,6 +16,7 @@ class CartItem : NSManagedObject {
     @NSManaged var tax: Float
     @NSManaged var quantity: Int16
     @NSManaged var price: Float
+    @NSManaged var updatedAt: Date
 }
 
 extension CartItem {
@@ -32,18 +33,19 @@ extension CartItem {
         typealias Entity = CartItem
         
         let id: String
-        let name: String
-        let image: String?
-        let tax: Float
-        let quantity: Int16
-        let price: Float
+        var name: String
+        var image: String?
+        var tax: Float
+        var quantity: Int16
+        var price: Float
+        var updatedAt: Date
     }
     
 }
 
 extension CartItem: DatabaseObject {
     func createObject() -> Object {
-        Object(id: itemId, name: name, image: image, tax: tax, quantity: quantity, price: price)
+        Object(id: itemId, name: name, image: image, tax: tax, quantity: quantity, price: price, updatedAt: updatedAt)
     }
 }
 
