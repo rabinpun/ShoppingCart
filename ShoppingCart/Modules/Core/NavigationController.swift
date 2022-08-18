@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// NavigationController
 class NavigationController: UINavigationController {
     
     public init(appearance: UINavigationBarAppearance, rootController: UIViewController) {
@@ -18,7 +19,4 @@ class NavigationController: UINavigationController {
         fatalError("This class is not meant to be initialized by coder")
     }
     
-    deinit {
-        debugPrint("De-Initialized --> \(String(describing: self))")
-    }
 }
