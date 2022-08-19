@@ -8,8 +8,8 @@
 import UIKit
 import CoreData
 
+/// Protocol for cartlist presenter
 protocol CartListPresentable {
-
     var delegate: CartListPresenterDelegate? { get set }
 
     func setup()
@@ -18,16 +18,14 @@ protocol CartListPresentable {
     func itemModelFor(index: Int) -> CartItem.Object?
 }
 
+/// Protocol for CartList Presenter delegate
 protocol CartListPresenterDelegate: UIViewController {
     func loadItemList()
     func showLoadingUI()
     func showAlert(title: String, message: String)
 }
 
-struct ShoesListViewSetupModel {
-    let title: String
-}
-
+/// Presenter of Cart list
 class CartListPresenter: CartListPresentable {
     
     typealias DataModel = CartItem

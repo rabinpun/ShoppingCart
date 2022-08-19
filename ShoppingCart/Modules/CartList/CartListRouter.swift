@@ -7,10 +7,12 @@
 
 import UIKit
 
+/// Protocol for cartlist router
 protocol CartListRoutable {
     func pushDetailView(with cartItem: CartItem.Object)
 }
 
+/// Router for cartlist
 struct CartListRouter: CartListRoutable {
     
     init(performer: CartListController) {
