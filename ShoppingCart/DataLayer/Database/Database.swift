@@ -26,6 +26,9 @@ protocol DatabaseObjectRepresentation {
 
 protocol StorageProvider {
     
+    func getBgContext() -> NSManagedObjectContext
+    func getMainContext() -> NSManagedObjectContext
+    
     func create<T: DatabaseObjectRepresentation>(_ object: T)
     func find<T: DatabaseObjectRepresentation>(_ predicate: NSPredicate) -> T?
     func update<T: DatabaseObjectRepresentation>(_ predicate: NSPredicate,_ object: T)
@@ -106,17 +109,14 @@ class Database: NSObject {
 }
 
 extension Database: StorageProvider {
-    func delete<T>(predicate: NSPredicate, type: T.Type) where T : DatabaseObjectRepresentation {
-        bgContext.perform { [unowned self] in
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: T.Entity.entityName)
-            request.returnsObjectsAsFaults = false
-            request.predicate = predicate
-            guard let result = try? self.bgContext.fetch(request) as? [T.Entity], let dbObject = result.first else { return }
-            self.bgContext.delete(dbObject)
-            self.saveContext()
-        }
+    
+    func getBgContext() -> NSManagedObjectContext {
+        bgContext
     }
     
+    func getMainContext() -> NSManagedObjectContext {
+        mainContext
+    }
     
     func create<T>(_ object: T) where T : DatabaseObjectRepresentation {
         let dbObject = T.Entity(entity:  NSEntityDescription.entity(forEntityName: T.Entity.entityName, in: bgContext)!, insertInto: bgContext)
@@ -139,6 +139,17 @@ extension Database: StorageProvider {
         guard let result = try? bgContext.fetch(request) as? [T.Entity], let dbObject = result.first else { return }
         object.updateObject(dbObject)
         saveContext()
+    }
+    
+    func delete<T>(predicate: NSPredicate, type: T.Type) where T : DatabaseObjectRepresentation {
+        bgContext.perform { [unowned self] in
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: T.Entity.entityName)
+            request.returnsObjectsAsFaults = false
+            request.predicate = predicate
+            guard let result = try? self.bgContext.fetch(request) as? [T.Entity], let dbObject = result.first else { return }
+            self.bgContext.delete(dbObject)
+            self.saveContext()
+        }
     }
     
 }
