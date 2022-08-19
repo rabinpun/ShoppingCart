@@ -7,13 +7,30 @@
 
 import UIKit
 
+/// Controller for Cartlist
 class CartListController: UIViewController {
+    
+    var presenter: CartListPresentable!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
+    
 }
 
+extension CartListController: CartListPresenterDelegate {
+    
+    func loadItemList() {
+        
+    }
+    
+    func showLoadingUI() {
+        
+    }
+    
+    func showAlert(title: String, message: String) {
+        
+    }
+    
+}
