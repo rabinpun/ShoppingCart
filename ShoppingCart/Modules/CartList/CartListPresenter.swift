@@ -16,6 +16,7 @@ protocol CartListPresentable {
     func didSelectItem(at index: Int)
     func numberOfItems() -> Int
     func itemModelFor(at index: Int) -> CartItem.Object?
+    func updateItem(_ object: CartItem.Object)
 }
 
 /// Protocol for CartList Presenter delegate
@@ -29,6 +30,17 @@ protocol CartListPresenterDelegate: UIViewController {
     func insertItem(at indexpath: IndexPath)
     func updateItem(at indices: [IndexPath])
     func removeItem(at indexpath: IndexPath)
+}
+
+enum CartListError: LocalizedError {
+    case quantityIsZero
+    
+    var errorDescription: String? {
+        switch self {
+        case .quantityIsZero:
+            return "Do you want to delete this item from cart?"
+        }
+    }
 }
 
 /// Presenter of Cart list
@@ -94,20 +106,28 @@ class CartListPresenter: NSObject, CartListPresentable {
         try fetchedResultsController.performFetch()
     }
     
-    func addItem(name: String, image: String?, tax: Float, quantity: Int16, price: Float) {
+    private func addItem(name: String, image: String?, tax: Float, quantity: Int16, price: Float) {
         let itemObject = CartItem.Object(id: UUID().uuidString, name: name, image: image, tax: tax, quantity: quantity, price: price, updatedAt: Date())
         localCartItemRepository.create(itemObject)
     }
     
-    func updateItem(id: String, name: String, image: String?, tax: Float, quantity: Int16, price: Float) {
-        let itemObject = CartItem.Object(id: id, name: name, image: image, tax: tax, quantity: quantity, price: price, updatedAt: Date())
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), itemObject.id)
-        localCartItemRepository.update(predicate, itemObject)
-    }
-    
-    func delete(id: String) {
+    private func delete(id: String) {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), id)
         localCartItemRepository.delete(predicate)
+    }
+    
+    func updateItem(_ object: CartItem.Object) {
+        do {
+            try updateItemIfValid(object)
+        } catch {
+            delegate?.showAlert(title: "Error", message: error.localizedDescription)
+        }
+    }
+    
+    private func updateItemIfValid(_ object: CartItem.Object) throws {
+        guard object.quantity > 0 else { throw CartListError.quantityIsZero }
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
+        localCartItemRepository.update(predicate, object)
     }
     
 }
@@ -130,7 +150,10 @@ extension CartListPresenter: NSFetchedResultsControllerDelegate {
             debugPrint("Item updated for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
             delegate?.updateItem(at: [newIndexPath, indexPath])
         case .move:
-            break
+            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+            debugPrint("Item moved for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
+            delegate?.updateItem(at: [newIndexPath, indexPath])
         case .delete:
             guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
             debugPrint("Item deleted for row: \(String(describing: indexPath.row))")
