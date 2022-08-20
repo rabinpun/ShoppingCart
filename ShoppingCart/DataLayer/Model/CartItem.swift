@@ -41,6 +41,10 @@ extension CartItem {
         var quantity: Int16
         var price: Float
         var updatedAt: Date
+        
+        func calculateTotalPrice() -> Float {
+            Float(quantity) * (price + price * tax * 0.01)
+        }
     }
     
 }

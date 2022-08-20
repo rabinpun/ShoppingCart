@@ -17,6 +17,7 @@ protocol CartListPresentable {
     func numberOfItems() -> Int
     func itemModelFor(at index: Int) -> CartItem.Object?
     func changeItemQuantityFor(_ index: Int, increase: Bool)
+    func getGrandTotal() -> Float
 }
 
 /// Protocol for CartList Presenter delegate
@@ -30,6 +31,7 @@ protocol CartListPresenterDelegate: UIViewController {
     func insertItem(at indexpath: IndexPath)
     func updateItem(at indices: [IndexPath])
     func removeItem(at indexpath: IndexPath)
+    func updateFooter(at section: Int)
 }
 
 enum CartListError: LocalizedError {
@@ -72,6 +74,12 @@ class CartListPresenter: NSObject, CartListPresentable {
 
     weak var delegate: CartListPresenterDelegate?
     
+    private var grandTotalAmount: Float = 0 {
+        didSet {
+            delegate?.updateFooter(at: 0)
+        }
+    }
+    
     init(router: CartListRoutable, localCartItemRepository: LocalRepository<CartItem>, dbContext: NSManagedObjectContext) {
         self.router = router
         self.localCartItemRepository = localCartItemRepository
@@ -104,6 +112,7 @@ class CartListPresenter: NSObject, CartListPresentable {
     private func fetchCartItems() throws {
         fetchedResultsController.delegate = self
         try fetchedResultsController.performFetch()
+        calculateGrandTotalAmount()
     }
     
     private func addItem(name: String, image: String?, tax: Float, quantity: Int16, price: Float) {
@@ -125,6 +134,7 @@ class CartListPresenter: NSObject, CartListPresentable {
         }
         do {
             try updateItemIfValid(itemModel)
+            grandTotalAmount += (increase ? 1 : -1) * itemModel.price
         } catch {
             delegate?.showAlert(title: "ShoppingCart", message: error.localizedDescription, alertActions: [.delete(deleteCurrentItem), .cancel(nil)])
         }
@@ -170,6 +180,18 @@ extension CartListPresenter: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate?.itemsUpdated()
+    }
+    
+}
+
+extension CartListPresenter {
+    
+    private func calculateGrandTotalAmount() {
+        grandTotalAmount = cartItems.reduce(Float(0), { $0 + $1.createObject().calculateTotalPrice() })
+    }
+    
+    func getGrandTotal() -> Float {
+        grandTotalAmount
     }
     
 }

@@ -73,6 +73,11 @@ extension CartListController: UITableViewDelegate {
 extension CartListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if presenter.numberOfItems() == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ListErrorCell.identifier, for: indexPath) as! ListErrorCell
+            cell.configure(with: "No items in cart.")
+            return cell
+        }
         guard let itemModel = presenter.itemModelFor(at: indexPath.row) else { fatalError("Item for index is not present.") }
         let cell = tableView.dequeueReusableCell(withIdentifier: CartListCell.identifier, for: indexPath) as! CartListCell
         cell.configure(with: itemModel, delegate: self)
@@ -80,7 +85,7 @@ extension CartListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter.numberOfItems()
+        presenter.numberOfItems() == 0 ? 1 : presenter.numberOfItems()
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -91,7 +96,7 @@ extension CartListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartListFooter.identifier) as! CartListFooter
-        header.configure(total: 0)
+        header.configure(total: presenter.getGrandTotal())
         return header
     }
     
@@ -152,6 +157,13 @@ extension CartListController {
     func removeItem(at indexpath: IndexPath) {
         DispatchQueue.main.async {
             self.tableView.deleteRows(at: [indexpath], with: .fade)
+        }
+    }
+    
+    func updateFooter(at section: Int) {
+        DispatchQueue.main.async {
+            let footerView = self.tableView.footerView(forSection: section) as! CartListFooter
+            footerView.configure(total: self.presenter.getGrandTotal())
         }
     }
 }

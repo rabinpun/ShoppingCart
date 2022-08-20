@@ -135,6 +135,6 @@ class CartListCell: UITableViewCell {
         itemImageView.image = item.image != nil ? UIImage(systemName: item.image!) : UIImage(systemName: "photo")
         priceLabel.text = "\(item.price) \n(\(item.tax)%)"
         quantityLabel.text = "\(item.quantity)"
-        totalAmountLabel.text = "\(Float(item.quantity) * (item.price + item.price * item.tax * 0.01))"
+        totalAmountLabel.text = "\(item.calculateTotalPrice())"
     }
 }
