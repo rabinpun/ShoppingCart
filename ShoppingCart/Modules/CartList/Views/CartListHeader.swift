@@ -71,7 +71,7 @@ class CartLisCartListHeadertCell: UITableViewHeaderFooterView {
     
     /// Configure the header vuew
     func configure() {
-        itemNameLabel.text = "Item Name"
+        itemNameLabel.text = "Item"
         priceLabel.text = "Price"
         quantityLabel.text = "Quantity"
         totalAmountLabel.text = "Total"
