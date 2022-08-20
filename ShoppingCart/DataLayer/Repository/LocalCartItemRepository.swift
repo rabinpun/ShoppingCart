@@ -37,12 +37,10 @@ class LocalRepository<T: DatabaseObject>: Repository {
     }
     
     func update(_ predicate: NSPredicate,_ object: Entity.Object) {
-        //NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
         storageProvider.update(predicate, object)
     }
     
     func delete(_ predicate: NSPredicate) {
-        //NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
         storageProvider.delete(predicate: predicate, type: Entity.Object.self)
     }
     
