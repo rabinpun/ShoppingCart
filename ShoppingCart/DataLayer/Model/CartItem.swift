@@ -23,11 +23,13 @@ extension CartItem {
     
     struct Object: DatabaseObjectRepresentation {
         func updateObject(_ object: CartItem) {
+            object.itemId = id
             object.name = name
             object.tax = tax
             object.price = price
             object.image = image
             object.quantity = quantity
+            object.updatedAt = updatedAt
         }
         
         typealias Entity = CartItem
