@@ -8,10 +8,46 @@
 import UIKit
 import Combine
 
-struct AlertAction {
-    let title: String
-    let destructive: Bool
-    let actionClosure: (() -> Void)?
+protocol AlertActionable {
+    var title: String { get }
+    var destructive: Bool { get }
+    var actionClosure: (() -> Void)? { get }
+}
+
+typealias AlertActionClosure = (() -> Void)?
+
+enum AlertAction: AlertActionable {
+    case ok(AlertActionClosure), cancel(AlertActionClosure), delete(AlertActionClosure)
+    
+    var title: String {
+        switch self {
+        case .ok:
+            return "Ok"
+        case .cancel:
+            return "Cancel"
+        case .delete:
+            return "Delete"
+        }
+    }
+    var destructive: Bool {
+        switch self {
+        case .ok, .cancel :
+            return false
+        case .delete:
+            return true
+        }
+    }
+
+    var actionClosure: (() -> Void)? {
+        switch self {
+        case .ok(let alertActionClosure), .cancel(let alertActionClosure), .delete(let alertActionClosure):
+            return alertActionClosure
+        }
+    }
+    
+    
+    
+    
 }
 
 extension UIViewController {
