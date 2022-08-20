@@ -55,4 +55,31 @@ extension CartListController: CartListPresenterDelegate {
     
 }
 
+/// Table view delegate confirmance
+extension CartListController: UITableViewDelegate {
+    
+    
+}
+
+/// Table view datasource confirmance
+extension CartListController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let itemModel = presenter.itemModelFor(at: indexPath.row) else { fatalError("Item for index is not present.") }
+        let cell = tableView.dequeueReusableCell(withIdentifier: CartListCell.identifier, for: indexPath) as! CartListCell
+        cell.configure(with: itemModel, delegate: self)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        presenter.numberOfItems()
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartLisCartListHeadertCell.identifier) as! CartLisCartListHeadertCell
+        header.configure()
+        return header
+    }
+    
+}
 
