@@ -11,6 +11,7 @@ import Combine
 struct AlertAction {
     let title: String
     let destructive: Bool
+    let actionClosure: (() -> Void)?
 }
 
 extension UIViewController {
