@@ -83,3 +83,41 @@ extension CartListController: UITableViewDataSource {
     
 }
 
+/// CartListCellDelegate functions
+extension CartListController: CartListCellDelegate {
+    
+    func subtractButtonClicked(cell: CartListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { fatalError("Item index is not nil.") }
+        presenter.changeItemQuantityFor(indexPath.row, increase: false)
+    }
+    
+    func addButtonClicked(cell: CartListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { fatalError("Item index is not nil.") }
+        presenter.changeItemQuantityFor(indexPath.row, increase: true)
+    }
+    
+}
+
+/// Item update delegate functions
+extension CartListController {
+    
+    func itemsWillUpdate() {
+        tableView.beginUpdates()
+    }
+    
+    func itemsUpdated() {
+        tableView.endUpdates()
+    }
+    
+    func insertItem(at indexpath: IndexPath) {
+        
+    }
+    
+    func updateItem(at indices: [IndexPath]) {
+        tableView.reloadRows(at: indices, with: .fade)
+    }
+    
+    func removeItem(at indexpath: IndexPath) {
+        
+    }
+}
