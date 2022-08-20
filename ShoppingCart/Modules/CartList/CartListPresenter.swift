@@ -23,7 +23,7 @@ protocol CartListPresentable {
 protocol CartListPresenterDelegate: UIViewController {
     func loadItemList()
     func showLoadingUI()
-    func showAlert(title: String, message: String)
+    func showAlert(title: String, message: String, alertActions: [AlertAction])
     
     func itemsWillUpdate()
     func itemsUpdated()
@@ -83,7 +83,7 @@ class CartListPresenter: NSObject, CartListPresentable {
             try fetchCartItems()
             delegate?.loadItemList()
         } catch {
-            delegate?.showAlert(title: "Error", message: "Failed to fech cart items.")
+            delegate?.showAlert(title: "Error", message: "Failed to fech cart items.", alertActions: [.ok(nil)])
         }
     }
     
@@ -119,10 +119,14 @@ class CartListPresenter: NSObject, CartListPresentable {
     func changeItemQuantityFor(_ index: Int, increase: Bool) {
         guard var itemModel = itemModelFor(at: index) else { return assertionFailure("Item for index not availabel") }
         itemModel.quantity += increase ? 1 : -1
+        
+        func deleteCurrentItem() {
+            delete(id: itemModel.id)
+        }
         do {
             try updateItemIfValid(itemModel)
         } catch {
-            delegate?.showAlert(title: "Error", message: error.localizedDescription)
+            delegate?.showAlert(title: "ShoppingCart", message: error.localizedDescription, alertActions: [.delete(deleteCurrentItem), .cancel(nil)])
         }
     }
     
