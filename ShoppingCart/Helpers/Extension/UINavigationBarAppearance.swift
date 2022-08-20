@@ -11,8 +11,8 @@ extension UINavigationBarAppearance {
     
     static func getAppNavigationBarAppearance() -> UINavigationBarAppearance {
         
-        let largeFont = UIFont.systemFont(ofSize: 27)
-        let smallFont = UIFont.systemFont(ofSize: 16)
+        let largeFont = UIFont.systemFont(ofSize: .FontSize.large.value)
+        let smallFont = UIFont.systemFont(ofSize: .FontSize.regular.value)
 
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .white
