@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import Combine
 
 /// Controller for Cartlist
 class CartListController: UIViewController {
     
     var presenter: CartListPresentable!
+    
+    private var alertCancellable: AnyCancellable?
     
     lazy var tableView: UITableView = {
         let view = UITableView()
@@ -49,8 +52,10 @@ extension CartListController: CartListPresenterDelegate {
         
     }
     
-    func showAlert(title: String, message: String) {
-        
+    func showAlert(title: String, message: String, alertActions: [AlertAction]) {
+        alertCancellable = alert(title: title, msg: message, actions: alertActions).sink { alert in
+            alert.actionClosure?()
+        }
     }
     
 }
@@ -102,11 +107,15 @@ extension CartListController: CartListCellDelegate {
 extension CartListController {
     
     func itemsWillUpdate() {
-        tableView.beginUpdates()
+        DispatchQueue.main.async {
+            self.tableView.beginUpdates()
+        }
     }
     
     func itemsUpdated() {
-        tableView.endUpdates()
+        DispatchQueue.main.async {
+            self.tableView.endUpdates()
+        }
     }
     
     func insertItem(at indexpath: IndexPath) {
@@ -114,10 +123,14 @@ extension CartListController {
     }
     
     func updateItem(at indices: [IndexPath]) {
-        tableView.reloadRows(at: indices, with: .fade)
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: indices, with: .fade)
+        }
     }
     
     func removeItem(at indexpath: IndexPath) {
-        
+        DispatchQueue.main.async {
+            self.tableView.deleteRows(at: [indexpath], with: .fade)
+        }
     }
 }
