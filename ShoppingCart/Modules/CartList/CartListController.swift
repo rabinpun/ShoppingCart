@@ -11,10 +11,30 @@ import UIKit
 class CartListController: UIViewController {
     
     var presenter: CartListPresentable!
+    
+    lazy var tableView: UITableView = {
+        let view = UITableView()
+        view.registerCell(CartListCell.self)
+        view.registerCell(ListErrorCell.self)
+        view.registerHeaderFooter(CartLisCartListHeadertCell.self)
+        view.separatorStyle = .none
+        view.backgroundColor = .clear
+        return view
+    }()
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .white
+        presenter.setup()
+        
+        addTableView()
+    }
+    
+    private func addTableView() {
+        view.addSubview(tableView)
+        tableView.frame = view.frame
+        
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
 }
@@ -22,7 +42,7 @@ class CartListController: UIViewController {
 extension CartListController: CartListPresenterDelegate {
     
     func loadItemList() {
-        
+        debugPrint(presenter.numberOfItems())
     }
     
     func showLoadingUI() {
@@ -34,3 +54,5 @@ extension CartListController: CartListPresenterDelegate {
     }
     
 }
+
+
