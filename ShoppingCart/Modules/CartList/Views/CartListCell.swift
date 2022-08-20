@@ -22,8 +22,8 @@ class CartListCell: UITableViewCell {
     }()
     
     lazy var itemNameLabel: UILabel = {
-        let label = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.value, weight: .semibold))
-        label.numberOfLines = 1
+        let label = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold))
+        label.numberOfLines = 2
         return label
     }()
     
@@ -69,9 +69,11 @@ class CartListCell: UITableViewCell {
         quantityStackView.addArrangedSubview(addButton)
         
         contentView.addSubview(totalAmountLabel)
-        
+        totalAmountLabel.textAlignment = .right
         addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
         deductButton.addTarget(self, action: #selector(deductButtonClicked), for: .touchUpInside)
+        
+        generateChildrens()
     }
     
     required init?(coder: NSCoder) {
@@ -93,7 +95,6 @@ class CartListCell: UITableViewCell {
             itemImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             itemImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            itemImageView.heightAnchor.constraint(equalToConstant: 50),
             itemImageView.widthAnchor.constraint(equalToConstant: 50),
             
             itemNameLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 10),
@@ -109,7 +110,7 @@ class CartListCell: UITableViewCell {
             quantityStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
             quantityStackView.widthAnchor.constraint(equalToConstant: 70),
             
-            totalAmountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            totalAmountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             totalAmountLabel.centerYAnchor.constraint(equalTo: itemImageView.centerYAnchor),
             totalAmountLabel.widthAnchor.constraint(equalToConstant: 60),
         
@@ -135,6 +136,5 @@ class CartListCell: UITableViewCell {
         priceLabel.text = "\(item.price) \n(\(item.tax)%)"
         quantityLabel.text = "\(item.quantity)"
         totalAmountLabel.text = "\(Float(item.quantity) * item.price * item.tax * 0.01)"
-        generateChildrens()
     }
 }
