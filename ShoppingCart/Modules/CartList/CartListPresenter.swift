@@ -16,7 +16,7 @@ protocol CartListPresentable {
     func didSelectItem(at index: Int)
     func numberOfItems() -> Int
     func itemModelFor(at index: Int) -> CartItem.Object?
-    func updateItem(_ object: CartItem.Object)
+    func changeItemQuantityFor(_ index: Int, increase: Bool)
 }
 
 /// Protocol for CartList Presenter delegate
@@ -116,9 +116,11 @@ class CartListPresenter: NSObject, CartListPresentable {
         localCartItemRepository.delete(predicate)
     }
     
-    func updateItem(_ object: CartItem.Object) {
+    func changeItemQuantityFor(_ index: Int, increase: Bool) {
+        guard var itemModel = itemModelFor(at: index) else { return assertionFailure("Item for index not availabel") }
+        itemModel.quantity += increase ? 1 : -1
         do {
-            try updateItemIfValid(object)
+            try updateItemIfValid(itemModel)
         } catch {
             delegate?.showAlert(title: "Error", message: error.localizedDescription)
         }
