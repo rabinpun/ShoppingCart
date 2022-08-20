@@ -9,7 +9,7 @@ import UIKit
 
 extension UITableViewHeaderFooterView: Identifiable {}
 
-class CartLisCartListHeadertCell: UITableViewHeaderFooterView {
+class CartListHeader: UITableViewHeaderFooterView {
     
     lazy var itemNameLabel: UILabel = {
         let label = UIFactory.label()
@@ -17,17 +17,9 @@ class CartLisCartListHeadertCell: UITableViewHeaderFooterView {
         return label
     }()
     
-    lazy var priceLabel: UILabel = {
-        UIFactory.label()
-    }()
-    
-    lazy var quantityLabel: UILabel = {
-        UIFactory.label(text: "100")
-    }()
-    
-    lazy var totalAmountLabel: UILabel = {
-        UIFactory.label(text: "100000")
-    }()
+    lazy var priceLabel = UIFactory.label()
+    lazy var quantityLabel = UIFactory.label()
+    lazy var totalAmountLabel = UIFactory.label()
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

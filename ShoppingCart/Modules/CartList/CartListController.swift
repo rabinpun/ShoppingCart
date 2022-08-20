@@ -11,16 +11,19 @@ import Combine
 /// Controller for Cartlist
 class CartListController: UIViewController {
     
-    var presenter: CartListPresentable!
-    
+    private let tableCellHeight: CGFloat = 70
+    private let tableHeaderHeight: CGFloat = 40, tableFooterHeight: CGFloat = 40
     private var alertCancellable: AnyCancellable?
+    
+    var presenter: CartListPresentable!
     
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.registerCell(CartListCell.self)
         view.registerCell(ListErrorCell.self)
-        view.registerHeaderFooter(CartLisCartListHeadertCell.self)
-        view.separatorStyle = .none
+        view.registerHeaderFooter(CartListHeader.self)
+        view.registerHeaderFooter(CartListFooter.self)
+        view.separatorStyle = .singleLine
         view.backgroundColor = .clear
         return view
     }()
@@ -81,9 +84,27 @@ extension CartListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartLisCartListHeadertCell.identifier) as! CartLisCartListHeadertCell
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartListHeader.identifier) as! CartListHeader
         header.configure()
         return header
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartListFooter.identifier) as! CartListFooter
+        header.configure(total: 0)
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        tableCellHeight
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        tableHeaderHeight
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        tableFooterHeight
     }
     
 }
