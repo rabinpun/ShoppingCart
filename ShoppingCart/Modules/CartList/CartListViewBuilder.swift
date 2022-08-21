@@ -23,12 +23,13 @@ struct CartListViewBuilder: ViewBuilder {
         
         /// presenter dependencies
         let router =  CartListRouter(performer: vc)
-        let localCartItemRepository = LocalRepository<CartItem>(storageProvider: database)
+        let localRepository = LocalRepository<CartItem>(storageProvider: database)
+        let updateCartItemUsecase = UpdateCartItemUseCase(localCartItemRepository: localRepository)
         let dbContext = database.getBgContext()
         
         let presenter = CartListPresenter(
             router: router,
-            localCartItemRepository: localCartItemRepository,
+            updatecartItemUseCase: updateCartItemUsecase,
             dbContext: dbContext)
         presenter.delegate = vc
         vc.presenter = presenter
