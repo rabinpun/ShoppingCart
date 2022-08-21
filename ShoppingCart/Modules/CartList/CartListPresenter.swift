@@ -51,14 +51,14 @@ final class CartListPresenter: NSObject, CartListPresentable {
 
     private let updatecartItemUseCase: UpdateCartItemUseCase
     private let router: CartListRoutable
+    private let database: StorageProvider
     private var cartItems: [CartItem] {
         var cartItems = [CartItem]()
-        dbContext.performAndWait({
+        database.getBgContext().performAndWait({
             cartItems = fetchedResultsController.fetchedObjects ?? []
         })
         return cartItems
     }
-    private let dbContext: NSManagedObjectContext
     
     lazy var fetchedResultsController: NSFetchedResultsController<DataModel> = {
         let request = NSFetchRequest<DataModel>(entityName: DataModel.entityName)
@@ -67,7 +67,7 @@ final class CartListPresenter: NSObject, CartListPresentable {
         request.fetchBatchSize = 20
         request.returnsObjectsAsFaults = false
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: dbContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: database.getBgContext(), sectionNameKeyPath: nil, cacheName: nil)
         return fetchedResultsController
     }()
 
@@ -79,10 +79,10 @@ final class CartListPresenter: NSObject, CartListPresentable {
         }
     }
     
-    init(router: CartListRoutable, updatecartItemUseCase: UpdateCartItemUseCase, dbContext: NSManagedObjectContext) {
+    init(router: CartListRoutable, updatecartItemUseCase: UpdateCartItemUseCase, database: StorageProvider) {
         self.router = router
         self.updatecartItemUseCase = updatecartItemUseCase
-        self.dbContext = dbContext
+        self.database = database
     }
 
     func setup() {
