@@ -109,7 +109,8 @@ final class AddItemController: UIViewController {
             (.quantity, textFields[2].text ?? ""),
             (.tax, textFields[3].text ?? ""),
         ]
-        presenter.addItem(parameters: parameters)
+//        presenter.addItem(parameters: parameters)
+        showActionSheetForImageSelection()
     }
     
 }
@@ -117,6 +118,23 @@ final class AddItemController: UIViewController {
 extension AddItemController: AddItemPresenterDelegate {
     func showAlert(title: String, message: String, alertActions: [AlertAction]) {
         alertCancellable = alert(title: title, msg: message, actions: alertActions).sink { alert in
+            alert.actionClosure?()
+        }
+    }
+    
+    private func showActionSheetForImageSelection() {
+        alertCancellable = alert(actions: [.takePhoto(nil), .openGallery(nil), .cancel], style: .actionSheet).sink { alert in
+            alert.actionClosure?()
+        }
+    }
+    
+    private func showCameraPermissionAlert() {
+        func openSettings() {
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+        alertCancellable = alert(title: "Shopping Cart", msg: "Please allow camera access...", actions: [.setting(openSettings), .cancel]).sink { alert in
             alert.actionClosure?()
         }
     }

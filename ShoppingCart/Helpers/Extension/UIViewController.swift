@@ -10,14 +10,15 @@ import Combine
 
 protocol AlertActionable {
     var title: String { get }
-    var destructive: Bool { get }
+    var style: UIAlertAction.Style { get }
     var actionClosure: (() -> Void)? { get }
 }
 
 typealias AlertActionClosure = (() -> Void)?
 
+
 enum AlertAction: AlertActionable {
-    case ok(AlertActionClosure), cancel(AlertActionClosure), delete(AlertActionClosure)
+    case ok(AlertActionClosure), cancel, delete(AlertActionClosure), takePhoto(AlertActionClosure), openGallery(AlertActionClosure), setting(AlertActionClosure)
     
     var title: String {
         switch self {
@@ -27,21 +28,31 @@ enum AlertAction: AlertActionable {
             return "Cancel"
         case .delete:
             return "Delete"
+        case .takePhoto:
+            return "Take photo"
+        case .openGallery:
+            return "Open gallery"
+        case .setting:
+            return "Setting"
         }
     }
-    var destructive: Bool {
+    var style: UIAlertAction.Style {
         switch self {
-        case .ok, .cancel :
-            return false
+        case .cancel:
+            return .cancel
         case .delete:
-            return true
+            return .destructive
+        default:
+            return .default
         }
     }
 
     var actionClosure: (() -> Void)? {
         switch self {
-        case .ok(let alertActionClosure), .cancel(let alertActionClosure), .delete(let alertActionClosure):
+        case .ok(let alertActionClosure), .delete(let alertActionClosure), .openGallery(let alertActionClosure), .takePhoto(let alertActionClosure), .setting(let alertActionClosure):
             return alertActionClosure
+        case .cancel:
+            return nil
         }
     }
     
@@ -57,13 +68,13 @@ extension UIViewController {
     ///   - title: the title of alert
     ///   - msg: the message of alert
     ///   - actions: the actions to display
-    func alert(title: String, msg: String, actions: [AlertAction]) -> AnyPublisher<AlertAction, Never> {
+    func alert(title: String? = nil, msg: String? = nil, actions: [AlertAction], style: UIAlertController.Style = .alert) -> AnyPublisher<AlertAction, Never> {
         
         Future<AlertAction, Never> { [weak self] promise in
             guard let self = self else { return }
-            let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+            let alert = title == nil && msg == nil ? UIAlertController() : UIAlertController(title: title, message: msg, preferredStyle: style)
             actions.forEach { action in
-                let alertAction = UIAlertAction(title: action.title, style: action.destructive ? .destructive: .default) { _ in
+                let alertAction = UIAlertAction(title: action.title, style: action.style) { _ in
                     promise(.success(action))
                 }
                 alert.addAction(alertAction)
