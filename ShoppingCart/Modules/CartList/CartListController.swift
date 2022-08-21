@@ -48,7 +48,7 @@ final class CartListController: UIViewController {
     }
     
     @objc private func rightBarButtonClicked() {
-        print("button clicked")
+        presenter.addItem()
     }
     
 }

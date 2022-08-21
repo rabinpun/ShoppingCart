@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// The builder of CartListViewBuilder
+/// The builder of CartList Module
 struct CartListViewBuilder: ViewBuilder {
     
     private let database: StorageProvider

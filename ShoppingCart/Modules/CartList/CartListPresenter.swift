@@ -31,6 +31,7 @@ protocol CartListPresentable {
     func itemModelFor(at index: Int) -> CartItem.Object?
     func changeItemQuantityFor(_ index: Int, increase: Bool)
     func getGrandTotal() -> Float
+    func addItem()
 }
 
 enum CartListError: LocalizedError {
@@ -186,6 +187,10 @@ extension CartListPresenter {
     
     func getGrandTotal() -> Float {
         grandTotalAmount
+    }
+    
+    func addItem() {
+        router.presentAddItemView(with: database)
     }
     
 }
