@@ -49,19 +49,30 @@ final class AddItemController: UIViewController {
     
     private let textFields = TextFieldType.allCases
     
+    
+    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .white, text: "Add product to the cart")
+    
     private lazy var textFieldStackView: UIStackView = {
         let stackView = UIFactory.stackView(axis: .vertical)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .white, text: "Add product to the cart")
+    private lazy var interactiveImageView = { InteractiveImageView() }()
+    
     private lazy var createButton = UIFactory.textButton(text: "Create item", cornerRadius: buttonHeight * 0.25)
     
     private var alertCancellable: AnyCancellable?
     
+    private let imagePickerController = UIImagePickerController()
+    
     override func viewDidLoad() {
         view.backgroundColor = .systemTeal
+        
+        imagePickerController.allowsEditing = true
+        imagePickerController.delegate = self
+        
+        interactiveImageView.delegate = self
         
         addViews()
         createButton.addTarget(self, action: #selector(createButtonClicked), for: .touchUpInside)
@@ -69,7 +80,7 @@ final class AddItemController: UIViewController {
     
     private func addViews() {
         
-        [titleLabel, textFieldStackView, createButton].forEach({ view.addSubview($0) })
+        [titleLabel, textFieldStackView, interactiveImageView, createButton].forEach({ view.addSubview($0) })
         
         textFields.forEach { textField in
             let stackView = UIFactory.stackView(axis: .vertical, spacing: 10)
@@ -91,7 +102,12 @@ final class AddItemController: UIViewController {
             textFieldStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             textFieldStackView.heightAnchor.constraint(equalToConstant: 300),
             
-            createButton.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 30),
+            interactiveImageView.widthAnchor.constraint(equalToConstant: 100),
+            interactiveImageView.heightAnchor.constraint(equalToConstant: 100),
+            interactiveImageView.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
+            interactiveImageView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 20),
+            
+            createButton.topAnchor.constraint(equalTo: interactiveImageView.bottomAnchor, constant: 50),
             createButton.centerXAnchor.constraint(equalTo: textFieldStackView.centerXAnchor),
             createButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             createButton.widthAnchor.constraint(equalToConstant: 120),
@@ -109,8 +125,7 @@ final class AddItemController: UIViewController {
             (.quantity, textFields[2].text ?? ""),
             (.tax, textFields[3].text ?? ""),
         ]
-//        presenter.addItem(parameters: parameters)
-        showActionSheetForImageSelection()
+        presenter.addItem(parameters: parameters)
     }
     
 }
@@ -123,9 +138,22 @@ extension AddItemController: AddItemPresenterDelegate {
     }
     
     private func showActionSheetForImageSelection() {
-        alertCancellable = alert(actions: [.takePhoto(nil), .openGallery(nil), .cancel], style: .actionSheet).sink { alert in
+        alertCancellable = alert(actions: [.takePhoto(showImagePickerWithCamera), .openGallery(showImagePickerWithGallery), .cancel], style: .actionSheet).sink { alert in
             alert.actionClosure?()
         }
+    }
+    
+    private func showImagePickerWithCamera() {
+        showImagePickerView()
+    }
+    
+    private func showImagePickerWithGallery() {
+        showImagePickerView(source: .photoLibrary)
+    }
+    
+    private func showImagePickerView(source: UIImagePickerController.SourceType = .camera) {
+        imagePickerController.sourceType = source
+        present(imagePickerController, animated: true)
     }
     
     private func showCameraPermissionAlert() {
@@ -137,6 +165,34 @@ extension AddItemController: AddItemPresenterDelegate {
         alertCancellable = alert(title: "Shopping Cart", msg: "Please allow camera access...", actions: [.setting(openSettings), .cancel]).sink { alert in
             alert.actionClosure?()
         }
+    }
+    
+}
+
+extension AddItemController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let editedImage = info[.editedImage] as? UIImage {
+            interactiveImageView.setImage(editedImage)
+            presenter.addImage(editedImage)
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            interactiveImageView.setImage(originalImage)
+            presenter.addImage(originalImage)
+        }
+        dismiss(animated: true)
+    }
+    
+}
+
+extension AddItemController: InteractiveImageViewDelegate {
+    
+    func addButtonClicked() {
+        showActionSheetForImageSelection()
+    }
+    
+    func removeButtonClicked() {
+        interactiveImageView.setImage(nil)
+        presenter.addImage(nil)
     }
     
 }
