@@ -44,9 +44,7 @@ class CartListCell: UITableViewCell {
     }()
     
     lazy var quantityStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
+        let stackView = UIFactory.stackView(axis: .horizontal)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()

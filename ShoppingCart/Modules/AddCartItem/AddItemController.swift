@@ -46,9 +46,7 @@ final class AddItemController: UIViewController {
     private let textFields = TextFieldType.allCases
     
     lazy var textFieldStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
+        let stackView = UIFactory.stackView(axis: .vertical)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -63,7 +61,7 @@ final class AddItemController: UIViewController {
         
         view.addSubview(textFieldStackView)
         textFields.forEach { textField in
-            let stackView = UIFactory.stackView()
+            let stackView = UIFactory.stackView(axis: .vertical, spacing: 10)
             let label = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold),text: textField.title)
             label.translatesAutoresizingMaskIntoConstraints = true
             stackView.addArrangedSubview(label)

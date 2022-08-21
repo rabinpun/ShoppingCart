@@ -42,4 +42,33 @@ final class UIFactory {
         return imageView
     }
     
+    static func textField(font: UIFont = .systemFont(ofSize: .FontSize.regular.value), placeholder: String = "", textColor: UIColor = .white, keyBoardType: UIKeyboardType) -> UITextField {
+        let textField = Textfield(frame: .zero)
+        textField.textColor = textColor
+        textField.keyboardType = keyBoardType
+        textField.placeholder = placeholder
+        return textField
+    }
+    
+    static func stackView(axis: NSLayoutConstraint.Axis, spacing: CGFloat = 0) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = axis
+        stackView.spacing = spacing
+        stackView.distribution = .equalSpacing
+        return stackView
+    }
+    
+}
+
+final class Textfield: UITextField {
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.gray.cgColor
+        layer.addSublayer(bottomLine)
+    }
+    
 }
