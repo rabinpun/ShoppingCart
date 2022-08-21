@@ -55,6 +55,7 @@ final class AddItemController: UIViewController {
         return stackView
     }()
     
+    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .white, text: "Add product to the cart")
     private lazy var createButton = UIFactory.textButton(text: "Create item", cornerRadius: buttonHeight * 0.25)
     
     private var alertCancellable: AnyCancellable?
@@ -68,8 +69,7 @@ final class AddItemController: UIViewController {
     
     private func addViews() {
         
-        view.addSubview(textFieldStackView)
-        view.addSubview(createButton)
+        [titleLabel, textFieldStackView, createButton].forEach({ view.addSubview($0) })
         
         textFields.forEach { textField in
             let stackView = UIFactory.stackView(axis: .vertical, spacing: 10)
@@ -83,9 +83,12 @@ final class AddItemController: UIViewController {
         
         NSLayoutConstraint.activate([
             
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            
             textFieldStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             textFieldStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            textFieldStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            textFieldStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             textFieldStackView.heightAnchor.constraint(equalToConstant: 300),
             
             createButton.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 30),
