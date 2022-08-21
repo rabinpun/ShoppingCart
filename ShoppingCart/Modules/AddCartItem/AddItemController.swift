@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import Photos
 
 enum TextFieldType: CaseIterable {
     case name, price, quantity, tax
@@ -153,7 +154,29 @@ extension AddItemController: AddItemPresenterDelegate {
     
     private func showImagePickerView(source: UIImagePickerController.SourceType = .camera) {
         imagePickerController.sourceType = source
-        present(imagePickerController, animated: true)
+        checkPermission()
+    }
+    
+    private func checkPermission() {
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+        switch photoAuthorizationStatus {
+        case .authorized, .limited:
+            present(imagePickerController, animated: true)
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({ [weak self] newStatus in
+                guard let self = self else { return }
+                if newStatus ==  PHAuthorizationStatus.authorized {
+                    /* do stuff here */
+                    DispatchQueue.main.async {
+                        self.present(self.imagePickerController, animated: true)
+                    }
+                }
+            })
+        case .restricted, .denied:
+            showCameraPermissionAlert()
+        @unknown default:
+            break
+        }
     }
     
     private func showCameraPermissionAlert() {

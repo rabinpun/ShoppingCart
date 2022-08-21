@@ -262,13 +262,21 @@
 		6ABBF83F28B1C88200DCEFF3 /* AddCartItem */ = {
 			isa = PBXGroup;
 			children = (
+				6ABBF85228B250F700DCEFF3 /* Views */,
 				6ABBF84028B1CBD800DCEFF3 /* AddItemController.swift */,
 				6ABBF84428B1CFDA00DCEFF3 /* AddItemViewBuilder.swift */,
 				6ABBF84228B1CC1C00DCEFF3 /* AddItemPresenter.swift */,
 				6ABBF84728B1D2F500DCEFF3 /* AddItemRouter.swift */,
-				6ABBF84E28B239AF00DCEFF3 /* InteractiveImageView.swift */,
 			);
 			path = AddCartItem;
+			sourceTree = "<group>";
+		};
+		6ABBF85228B250F700DCEFF3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6ABBF84E28B239AF00DCEFF3 /* InteractiveImageView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		6AE0DEB828AF3A8700C731F2 /* Factory */ = {
@@ -738,7 +746,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -766,7 +774,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
