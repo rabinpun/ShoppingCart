@@ -9,7 +9,16 @@ import UIKit
 
 final class AddItemController: UIViewController {
     
+    var presenter: AddItemPresentable!
+    
     override func viewDidLoad() {
         view.backgroundColor = .blue
     }
+}
+
+extension AddItemController: AddItemPresenterDelegate {
+    func showAlert(title: String, message: String, alertActions: [AlertAction]) {
+    
+    }
+    
 }
