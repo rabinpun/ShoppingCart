@@ -86,6 +86,9 @@ extension CartListController: UITableViewDataSource {
         guard let itemModel = presenter.itemModelFor(at: indexPath.row) else { fatalError("Item for index is not present.") }
         let cell = tableView.dequeueReusableCell(withIdentifier: CartListCell.identifier, for: indexPath) as! CartListCell
         cell.configure(with: itemModel, delegate: self)
+        if let imageName = itemModel.image, let image = presenter.imageFor(imageName) {
+            cell.itemImageView.image = image
+        }
         return cell
     }
     

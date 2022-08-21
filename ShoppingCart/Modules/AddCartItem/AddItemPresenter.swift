@@ -17,6 +17,7 @@ protocol AddItemPresentable {
     var delegate: AddItemPresenterDelegate? { get set }
     
     func addItem(parameters: [(ParameterType,String)])
+    func addImage(_ image: UIImage?)
 }
 
 enum ParameterType: String {
@@ -42,10 +43,13 @@ final class AddItemPresenter: AddItemPresentable {
     
     private let router: AddItemRoutable
     private let addCartItemUseCase: AddCartItemUseCase
+    private var image: UIImage?
+    private let imageManager: ImageManagable
     
-    init(addCartItemUseCase: AddCartItemUseCase, router: AddItemRoutable) {
+    init(addCartItemUseCase: AddCartItemUseCase, router: AddItemRoutable, imageManager: ImageManagable) {
         self.addCartItemUseCase = addCartItemUseCase
         self.router = router
+        self.imageManager = imageManager
     }
     
     func addItem(parameters: [(ParameterType,String)]) {
@@ -80,8 +84,23 @@ final class AddItemPresenter: AddItemPresentable {
             }
         }
         
-        addCartItemUseCase.create(CartItem.Object(id: UUID().uuidString, name: parameters[0].1, image: nil, tax: Float(parameters[3].1)!, quantity: Int16(parameters[2].1)!, price: Float(parameters[1].1)!, updatedAt: Date()))
+        let id =  UUID().uuidString
+        if let image = image {
+            do {
+                let imageName = id + ".jpg"
+                try imageManager.saveImage(image, name: imageName)
+                addCartItemUseCase.create(CartItem.Object(id: id, name: parameters[0].1, image: imageName, tax: Float(parameters[3].1)!, quantity: Int16(parameters[2].1)!, price: Float(parameters[1].1)!, updatedAt: Date()))
+            } catch {
+                addCartItemUseCase.create(CartItem.Object(id: id, name: parameters[0].1, image: nil, tax: Float(parameters[3].1)!, quantity: Int16(parameters[2].1)!, price: Float(parameters[1].1)!, updatedAt: Date()))
+            }
+        } else {
+            addCartItemUseCase.create(CartItem.Object(id: id, name: parameters[0].1, image: nil, tax: Float(parameters[3].1)!, quantity: Int16(parameters[2].1)!, price: Float(parameters[1].1)!, updatedAt: Date()))
+        }
         router.dismissView()
+    }
+    
+    func addImage(_ image: UIImage?) {
+        self.image = image
     }
     
 }

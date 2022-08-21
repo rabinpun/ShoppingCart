@@ -32,6 +32,8 @@ protocol CartListPresentable {
     func changeItemQuantityFor(_ index: Int, increase: Bool)
     func getGrandTotal() -> Float
     func addItem()
+    
+    func imageFor(_ name: String) -> UIImage?
 }
 
 enum CartListError: LocalizedError {
@@ -53,6 +55,8 @@ final class CartListPresenter: NSObject, CartListPresentable {
     private let updatecartItemUseCase: UpdateCartItemUseCase
     private let router: CartListRoutable
     private let database: StorageProvider
+    private let imageManager: ImageManagable
+    
     private var cartItems: [CartItem] {
         var cartItems = [CartItem]()
         database.getBgContext().performAndWait({
@@ -80,10 +84,11 @@ final class CartListPresenter: NSObject, CartListPresentable {
         }
     }
     
-    init(router: CartListRoutable, updatecartItemUseCase: UpdateCartItemUseCase, database: StorageProvider) {
+    init(router: CartListRoutable, updatecartItemUseCase: UpdateCartItemUseCase, database: StorageProvider, imageManager: ImageManagable) {
         self.router = router
         self.updatecartItemUseCase = updatecartItemUseCase
         self.database = database
+        self.imageManager = imageManager
     }
 
     func setup() {
@@ -118,6 +123,7 @@ final class CartListPresenter: NSObject, CartListPresentable {
     private func delete(id: String) {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), id)
         updatecartItemUseCase.delete(predicate)
+        imageManager.deleteImage(name: id + ".jpg")
     }
     
     func changeItemQuantityFor(_ index: Int, increase: Bool) {
@@ -190,7 +196,11 @@ extension CartListPresenter {
     }
     
     func addItem() {
-        router.presentAddItemView(with: database)
+        router.presentAddItemView(with: database, imageManager: imageManager)
+    }
+    
+    func imageFor(_ name: String) -> UIImage? {
+        try? imageManager.getImage(name: name)
     }
     
 }
