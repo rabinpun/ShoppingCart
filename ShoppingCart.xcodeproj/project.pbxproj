@@ -26,6 +26,9 @@
 		6ABBF83E28B1C31C00DCEFF3 /* AddCartItemUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83D28B1C31C00DCEFF3 /* AddCartItemUseCase.swift */; };
 		6ABBF84128B1CBD800DCEFF3 /* AddItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF84028B1CBD800DCEFF3 /* AddItemController.swift */; };
 		6ABBF84328B1CC1C00DCEFF3 /* AddItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF84228B1CC1C00DCEFF3 /* AddItemPresenter.swift */; };
+		6ABBF84528B1CFDA00DCEFF3 /* AddItemViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF84428B1CFDA00DCEFF3 /* AddItemViewBuilder.swift */; };
+		6ABBF84828B1D2F500DCEFF3 /* AddItemRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF84728B1D2F500DCEFF3 /* AddItemRouter.swift */; };
+		6ABBF84B28B1F2D500DCEFF3 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6ABBF84A28B1F2D500DCEFF3 /* IQKeyboardManagerSwift */; };
 		6AE0DEB328AF1EF000C731F2 /* CartListViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE0DEB228AF1EF000C731F2 /* CartListViewBuilder.swift */; };
 		6AE0DEB528AF3A0600C731F2 /* UITableview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE0DEB428AF3A0600C731F2 /* UITableview.swift */; };
 		6AE0DEB728AF3A3800C731F2 /* CartListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE0DEB628AF3A3800C731F2 /* CartListCell.swift */; };
@@ -78,6 +81,8 @@
 		6ABBF83D28B1C31C00DCEFF3 /* AddCartItemUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCartItemUseCase.swift; sourceTree = "<group>"; };
 		6ABBF84028B1CBD800DCEFF3 /* AddItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemController.swift; sourceTree = "<group>"; };
 		6ABBF84228B1CC1C00DCEFF3 /* AddItemPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemPresenter.swift; sourceTree = "<group>"; };
+		6ABBF84428B1CFDA00DCEFF3 /* AddItemViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewBuilder.swift; sourceTree = "<group>"; };
+		6ABBF84728B1D2F500DCEFF3 /* AddItemRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemRouter.swift; sourceTree = "<group>"; };
 		6AE0DEB228AF1EF000C731F2 /* CartListViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartListViewBuilder.swift; sourceTree = "<group>"; };
 		6AE0DEB428AF3A0600C731F2 /* UITableview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableview.swift; sourceTree = "<group>"; };
 		6AE0DEB628AF3A3800C731F2 /* CartListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartListCell.swift; sourceTree = "<group>"; };
@@ -102,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ABBF84B28B1F2D500DCEFF3 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +258,9 @@
 			isa = PBXGroup;
 			children = (
 				6ABBF84028B1CBD800DCEFF3 /* AddItemController.swift */,
+				6ABBF84428B1CFDA00DCEFF3 /* AddItemViewBuilder.swift */,
 				6ABBF84228B1CC1C00DCEFF3 /* AddItemPresenter.swift */,
+				6ABBF84728B1D2F500DCEFF3 /* AddItemRouter.swift */,
 			);
 			path = AddCartItem;
 			sourceTree = "<group>";
@@ -388,6 +396,9 @@
 			dependencies = (
 			);
 			name = ShoppingCart;
+			packageProductDependencies = (
+				6ABBF84A28B1F2D500DCEFF3 /* IQKeyboardManagerSwift */,
+			);
 			productName = ShoppingCart;
 			productReference = 6AECDD6228AD14AD00CBE78D /* ShoppingCart.app */;
 			productType = "com.apple.product-type.application";
@@ -460,6 +471,9 @@
 				Base,
 			);
 			mainGroup = 6AECDD5928AD14AD00CBE78D;
+			packageReferences = (
+				6ABBF84928B1F2D400DCEFF3 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+			);
 			productRefGroup = 6AECDD6328AD14AD00CBE78D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -514,6 +528,7 @@
 				6ABBF83C28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift in Sources */,
 				6A439BBF28B1097D005C29AE /* CartListFooter.swift in Sources */,
 				6A3AAAD528AE413F00ACA759 /* LocalCartItemRepository.swift in Sources */,
+				6ABBF84828B1D2F500DCEFF3 /* AddItemRouter.swift in Sources */,
 				6ABBF83928B1BF1A00DCEFF3 /* CartItemModel.swift in Sources */,
 				6ABBF84128B1CBD800DCEFF3 /* AddItemController.swift in Sources */,
 				6A3AAAD828AE507600ACA759 /* Database.swift in Sources */,
@@ -527,6 +542,7 @@
 				6AE0DEB528AF3A0600C731F2 /* UITableview.swift in Sources */,
 				6A475FB028B0983900B2F581 /* Identifiable.swift in Sources */,
 				6ABBF83E28B1C31C00DCEFF3 /* AddCartItemUseCase.swift in Sources */,
+				6ABBF84528B1CFDA00DCEFF3 /* AddItemViewBuilder.swift in Sources */,
 				6A3AAACC28AE367200ACA759 /* CartListRouter.swift in Sources */,
 				6A3AAACA28AE348C00ACA759 /* ViewBuilder.swift in Sources */,
 			);
@@ -862,6 +878,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6ABBF84928B1F2D400DCEFF3 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 6.5.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6ABBF84A28B1F2D500DCEFF3 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6ABBF84928B1F2D400DCEFF3 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		6AECDD6E28AD14AD00CBE78D /* ShoppingCart.xcdatamodeld */ = {
