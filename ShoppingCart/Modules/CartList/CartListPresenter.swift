@@ -50,7 +50,7 @@ class CartListPresenter: NSObject, CartListPresentable {
     
     typealias DataModel = CartItem
 
-    private let localCartItemRepository: LocalRepository<DataModel>
+    private let updatecartItemUseCase: UpdateCartItemUseCase
     private let router: CartListRoutable
     private var cartItems: [CartItem] {
         var cartItems = [CartItem]()
@@ -80,9 +80,9 @@ class CartListPresenter: NSObject, CartListPresentable {
         }
     }
     
-    init(router: CartListRoutable, localCartItemRepository: LocalRepository<CartItem>, dbContext: NSManagedObjectContext) {
+    init(router: CartListRoutable, updatecartItemUseCase: UpdateCartItemUseCase, dbContext: NSManagedObjectContext) {
         self.router = router
-        self.localCartItemRepository = localCartItemRepository
+        self.updatecartItemUseCase = updatecartItemUseCase
         self.dbContext = dbContext
     }
 
@@ -115,14 +115,9 @@ class CartListPresenter: NSObject, CartListPresentable {
         calculateGrandTotalAmount()
     }
     
-    private func addItem(name: String, image: String?, tax: Float, quantity: Int16, price: Float) {
-        let itemObject = CartItem.Object(id: UUID().uuidString, name: name, image: image, tax: tax, quantity: quantity, price: price, updatedAt: Date())
-        localCartItemRepository.create(itemObject)
-    }
-    
     private func delete(id: String) {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), id)
-        localCartItemRepository.delete(predicate)
+        updatecartItemUseCase.delete(predicate)
     }
     
     func changeItemQuantityFor(_ index: Int, increase: Bool) {
@@ -143,7 +138,7 @@ class CartListPresenter: NSObject, CartListPresentable {
     private func updateItemIfValid(_ object: CartItem.Object) throws {
         guard object.quantity > 0 else { throw CartListError.quantityIsZero }
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
-        localCartItemRepository.update(predicate, object)
+        updatecartItemUseCase.update(predicate, object)
     }
     
 }
