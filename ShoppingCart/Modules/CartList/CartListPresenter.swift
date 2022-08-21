@@ -50,6 +50,8 @@ enum CartListError: LocalizedError {
 /// Presenter of Cart list
 final class CartListPresenter: NSObject, CartListPresentable {
     
+    let databaseupdateQueue = DispatchQueue(label: "databaseupdateQueue")
+    
     typealias DataModel = CartItem
 
     private let updatecartItemUseCase: UpdateCartItemUseCase
@@ -152,35 +154,49 @@ final class CartListPresenter: NSObject, CartListPresentable {
 extension CartListPresenter: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.itemsWillUpdate()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            debugPrint("Item created for row: \(String(describing: newIndexPath.row))")
-            delegate?.insertItem(at: newIndexPath)
-        case .update:
-            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            debugPrint("Item updated for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
-            delegate?.updateItem(at: [newIndexPath, indexPath])
-        case .move:
-            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            debugPrint("Item moved for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
-            delegate?.updateItem(at: [newIndexPath, indexPath])
-        case .delete:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            debugPrint("Item deleted for row: \(String(describing: indexPath.row))")
-            delegate?.removeItem(at: indexPath)
-        @unknown default: break
+        databaseupdateQueue.sync {
+            delegate?.itemsWillUpdate()
         }
     }
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        databaseupdateQueue.sync {
+            switch type {
+            case .insert:
+                guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+                debugPrint("Item created for row: \(String(describing: newIndexPath.row))")
+                if let entity = anObject as? CartItem {
+                    grandTotalAmount += entity.createObject().calculateTotalPrice()
+                }
+                delegate?.insertItem(at: newIndexPath)
+            case .update:
+                guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                debugPrint("Item updated for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
+                delegate?.updateItem(at: [newIndexPath, indexPath])
+            case .move:
+                guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                debugPrint("Item moved for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
+                delegate?.updateItem(at: [newIndexPath, indexPath])
+            case .delete:
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                debugPrint("Item deleted for row: \(String(describing: indexPath.row))")
+                if let entity = anObject as? CartItem {
+                    grandTotalAmount -= entity.createObject().calculateTotalPrice()
+                }
+                delegate?.removeItem(at: indexPath)
+            @unknown default: break
+            }
+        }
+        
+    }
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.itemsUpdated()
+        
+        databaseupdateQueue.sync {
+            delegate?.itemsUpdated()
+        }
     }
     
 }
