@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 /// Controller for Cartlist
-class CartListController: UIViewController {
+final class CartListController: UIViewController {
     
     private let tableCellHeight: CGFloat = 70
     private let tableHeaderHeight: CGFloat = 40, tableFooterHeight: CGFloat = 40
@@ -38,9 +38,6 @@ class CartListController: UIViewController {
     private func addTableView() {
         view.addSubview(tableView)
         tableView.frame = view.frame
-        
-        tableView.dataSource = self
-        tableView.delegate = self
     }
     
 }
@@ -48,11 +45,8 @@ class CartListController: UIViewController {
 extension CartListController: CartListPresenterDelegate {
     
     func loadItemList() {
-        debugPrint(presenter.numberOfItems())
-    }
-    
-    func showLoadingUI() {
-        
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
     func showAlert(title: String, message: String, alertActions: [AlertAction]) {

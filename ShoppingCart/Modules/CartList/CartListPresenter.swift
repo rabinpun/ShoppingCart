@@ -8,6 +8,19 @@
 import UIKit
 import CoreData
 
+/// Protocol for CartList Presenter delegate
+protocol CartListPresenterDelegate: UIViewController {
+    func loadItemList()
+    func showAlert(title: String, message: String, alertActions: [AlertAction])
+    
+    func itemsWillUpdate()
+    func itemsUpdated()
+    func insertItem(at indexpath: IndexPath)
+    func updateItem(at indices: [IndexPath])
+    func removeItem(at indexpath: IndexPath)
+    func updateFooter(at section: Int)
+}
+
 /// Protocol for cartlist presenter
 protocol CartListPresentable {
     var delegate: CartListPresenterDelegate? { get set }
@@ -18,20 +31,6 @@ protocol CartListPresentable {
     func itemModelFor(at index: Int) -> CartItem.Object?
     func changeItemQuantityFor(_ index: Int, increase: Bool)
     func getGrandTotal() -> Float
-}
-
-/// Protocol for CartList Presenter delegate
-protocol CartListPresenterDelegate: UIViewController {
-    func loadItemList()
-    func showLoadingUI()
-    func showAlert(title: String, message: String, alertActions: [AlertAction])
-    
-    func itemsWillUpdate()
-    func itemsUpdated()
-    func insertItem(at indexpath: IndexPath)
-    func updateItem(at indices: [IndexPath])
-    func removeItem(at indexpath: IndexPath)
-    func updateFooter(at section: Int)
 }
 
 enum CartListError: LocalizedError {
@@ -46,7 +45,7 @@ enum CartListError: LocalizedError {
 }
 
 /// Presenter of Cart list
-class CartListPresenter: NSObject, CartListPresentable {
+final class CartListPresenter: NSObject, CartListPresentable {
     
     typealias DataModel = CartItem
 
