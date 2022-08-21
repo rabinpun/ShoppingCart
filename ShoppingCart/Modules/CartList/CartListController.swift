@@ -31,13 +31,24 @@ final class CartListController: UIViewController {
     override func viewDidLoad() {
         view.backgroundColor = .white
         presenter.setup()
-        
+        setupNavigationButtons()
         addTableView()
     }
     
     private func addTableView() {
         view.addSubview(tableView)
         tableView.frame = view.frame
+    }
+    
+    private func setupNavigationButtons() {
+        let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(rightBarButtonClicked))
+        rightBarButton.tintColor = .black
+        navigationItem.rightBarButtonItem = rightBarButton
+        
+    }
+    
+    @objc private func rightBarButtonClicked() {
+        print("button clicked")
     }
     
 }
