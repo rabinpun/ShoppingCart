@@ -21,6 +21,8 @@
 		6A61F4C028ADED01003FDF96 /* CartListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61F4BF28ADED01003FDF96 /* CartListController.swift */; };
 		6A61F4C328ADEDF3003FDF96 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A61F4C228ADEDF3003FDF96 /* NavigationController.swift */; };
 		6AA4BCED28B07F68004E6B84 /* ListErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA4BCEC28B07F68004E6B84 /* ListErrorCell.swift */; };
+		6ABBF83928B1BF1A00DCEFF3 /* CartItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83828B1BF1A00DCEFF3 /* CartItemModel.swift */; };
+		6ABBF83C28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83B28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift */; };
 		6AE0DEB328AF1EF000C731F2 /* CartListViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE0DEB228AF1EF000C731F2 /* CartListViewBuilder.swift */; };
 		6AE0DEB528AF3A0600C731F2 /* UITableview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE0DEB428AF3A0600C731F2 /* UITableview.swift */; };
 		6AE0DEB728AF3A3800C731F2 /* CartListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE0DEB628AF3A3800C731F2 /* CartListCell.swift */; };
@@ -68,6 +70,8 @@
 		6A61F4BF28ADED01003FDF96 /* CartListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartListController.swift; sourceTree = "<group>"; };
 		6A61F4C228ADEDF3003FDF96 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		6AA4BCEC28B07F68004E6B84 /* ListErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListErrorCell.swift; sourceTree = "<group>"; };
+		6ABBF83828B1BF1A00DCEFF3 /* CartItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemModel.swift; sourceTree = "<group>"; };
+		6ABBF83B28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCartItemUseCase.swift; sourceTree = "<group>"; };
 		6AE0DEB228AF1EF000C731F2 /* CartListViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartListViewBuilder.swift; sourceTree = "<group>"; };
 		6AE0DEB428AF3A0600C731F2 /* UITableview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableview.swift; sourceTree = "<group>"; };
 		6AE0DEB628AF3A3800C731F2 /* CartListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartListCell.swift; sourceTree = "<group>"; };
@@ -141,12 +145,12 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
-		6A3AAACD28AE381B00ACA759 /* Model */ = {
+		6A3AAACD28AE381B00ACA759 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				6A3AAACE28AE382700ACA759 /* CartItem.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		6A3AAAD228AE3CB800ACA759 /* DataModel */ = {
@@ -212,6 +216,31 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		6ABBF83628B1BECC00DCEFF3 /* DomainLayer */ = {
+			isa = PBXGroup;
+			children = (
+				6ABBF83A28B1BF5100DCEFF3 /* UseCases */,
+				6ABBF83728B1BEF600DCEFF3 /* Models */,
+			);
+			path = DomainLayer;
+			sourceTree = "<group>";
+		};
+		6ABBF83728B1BEF600DCEFF3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6ABBF83828B1BF1A00DCEFF3 /* CartItemModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6ABBF83A28B1BF5100DCEFF3 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				6ABBF83B28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
 		6AE0DEB828AF3A8700C731F2 /* Factory */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +272,7 @@
 		6AECDD6428AD14AD00CBE78D /* ShoppingCart */ = {
 			isa = PBXGroup;
 			children = (
+				6ABBF83628B1BECC00DCEFF3 /* DomainLayer */,
 				6A3AAAC828AE348100ACA759 /* Base */,
 				6A3AAAC428AE330000ACA759 /* Helpers */,
 				6AECDD9E28AD164100CBE78D /* DataLayer */,
@@ -320,7 +350,7 @@
 				6A3AAAD628AE505100ACA759 /* Database */,
 				6A3AAAD328AE412A00ACA759 /* Repository */,
 				6A3AAAD228AE3CB800ACA759 /* DataModel */,
-				6A3AAACD28AE381B00ACA759 /* Model */,
+				6A3AAACD28AE381B00ACA759 /* Models */,
 			);
 			path = DataLayer;
 			sourceTree = "<group>";
@@ -463,8 +493,10 @@
 				6AE0DEB728AF3A3800C731F2 /* CartListCell.swift in Sources */,
 				6A3AAAC728AE331900ACA759 /* UINavigationBarAppearance.swift in Sources */,
 				6A3AAACF28AE382700ACA759 /* CartItem.swift in Sources */,
+				6ABBF83C28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift in Sources */,
 				6A439BBF28B1097D005C29AE /* CartListFooter.swift in Sources */,
 				6A3AAAD528AE413F00ACA759 /* LocalCartItemRepository.swift in Sources */,
+				6ABBF83928B1BF1A00DCEFF3 /* CartItemModel.swift in Sources */,
 				6A3AAAD828AE507600ACA759 /* Database.swift in Sources */,
 				6AECDD6828AD14AD00CBE78D /* SceneDelegate.swift in Sources */,
 				6AE0DEBC28AF3ADF00C731F2 /* CGFloat.swift in Sources */,
