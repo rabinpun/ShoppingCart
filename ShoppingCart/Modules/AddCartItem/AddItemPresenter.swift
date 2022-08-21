@@ -23,10 +23,12 @@ final class AddItemPresenter: AddItemPresentable {
     
     weak var delegate: AddItemPresenterDelegate?
     
+    private let router: AddItemRoutable
     private let addCartItemUseCase: AddCartItemUseCase
     
-    init(addCartItemUseCase: AddCartItemUseCase) {
+    init(addCartItemUseCase: AddCartItemUseCase, router: AddItemRoutable) {
         self.addCartItemUseCase = addCartItemUseCase
+        self.router = router
     }
     
     func addItem(name: String, image: String?, tax: Float, quantity: Int16, price: Float) {
