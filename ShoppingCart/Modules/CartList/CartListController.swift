@@ -150,7 +150,9 @@ extension CartListController {
     }
     
     func insertItem(at indexpath: IndexPath) {
-        
+        DispatchQueue.main.async {
+            self.tableView.insertRows(at: [indexpath], with: .fade)
+        }
     }
     
     func updateItem(at indices: [IndexPath]) {
