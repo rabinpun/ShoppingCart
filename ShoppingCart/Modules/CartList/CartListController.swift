@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 /// Controller for Cartlist
-class CartListController: UIViewController {
+final class CartListController: UIViewController {
     
     private let tableCellHeight: CGFloat = 70
     private let tableHeaderHeight: CGFloat = 40, tableFooterHeight: CGFloat = 40
@@ -29,18 +29,26 @@ class CartListController: UIViewController {
     }()
 
     override func viewDidLoad() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemTeal
         presenter.setup()
-        
+        setupNavigationButtons()
         addTableView()
     }
     
     private func addTableView() {
         view.addSubview(tableView)
         tableView.frame = view.frame
+    }
+    
+    private func setupNavigationButtons() {
+        let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(rightBarButtonClicked))
+        rightBarButton.tintColor = .black
+        navigationItem.rightBarButtonItem = rightBarButton
         
-        tableView.dataSource = self
-        tableView.delegate = self
+    }
+    
+    @objc private func rightBarButtonClicked() {
+        presenter.addItem()
     }
     
 }
@@ -48,11 +56,8 @@ class CartListController: UIViewController {
 extension CartListController: CartListPresenterDelegate {
     
     func loadItemList() {
-        debugPrint(presenter.numberOfItems())
-    }
-    
-    func showLoadingUI() {
-        
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
     func showAlert(title: String, message: String, alertActions: [AlertAction]) {
@@ -81,6 +86,9 @@ extension CartListController: UITableViewDataSource {
         guard let itemModel = presenter.itemModelFor(at: indexPath.row) else { fatalError("Item for index is not present.") }
         let cell = tableView.dequeueReusableCell(withIdentifier: CartListCell.identifier, for: indexPath) as! CartListCell
         cell.configure(with: itemModel, delegate: self)
+        if let imageName = itemModel.image, let image = presenter.imageFor(imageName) {
+            cell.itemImageView.image = image
+        }
         return cell
     }
     
@@ -145,7 +153,9 @@ extension CartListController {
     }
     
     func insertItem(at indexpath: IndexPath) {
-        
+        DispatchQueue.main.async {
+            self.tableView.insertRows(at: [indexpath], with: .fade)
+        }
     }
     
     func updateItem(at indices: [IndexPath]) {

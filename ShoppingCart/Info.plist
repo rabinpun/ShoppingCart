@@ -19,5 +19,9 @@
 			</array>
 		</dict>
 	</dict>
+    <key>NSCameraUsageDescription</key>
+    <string>Please allow camera access for Shopping Cart</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Please allow photos access for Shopping Cart</string>
 </dict>
 </plist>

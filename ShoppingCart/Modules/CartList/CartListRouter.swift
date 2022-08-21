@@ -9,11 +9,14 @@ import UIKit
 
 /// Protocol for cartlist router
 protocol CartListRoutable {
+    func presentAddItemView(with database: StorageProvider, imageManager: ImageManagable)
     func pushDetailView(with cartItem: CartItem.Object)
 }
 
 /// Router for cartlist
 struct CartListRouter: CartListRoutable {
+    
+    private weak var performer: CartListController!
     
     init(performer: CartListController) {
         self.performer = performer
@@ -22,7 +25,9 @@ struct CartListRouter: CartListRoutable {
     func pushDetailView(with cartItem: CartItem.Object) {
     }
     
-    // MARK: private
+    func presentAddItemView(with database: StorageProvider, imageManager: ImageManagable) {
+        let vc = AddItemViewBuilder(database: database, imageManager: imageManager).build()
+        self.performer.present(vc, animated: true)
+    }
     
-    private weak var performer: CartListController!
 }

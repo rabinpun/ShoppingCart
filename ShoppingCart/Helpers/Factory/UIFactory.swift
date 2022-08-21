@@ -31,6 +31,18 @@ final class UIFactory {
         return button
     }
     
+    static func textButton(text: String, textColor: UIColor = .white, backgroundColor: UIColor = .black, cornerRadius: CGFloat = 0) -> UIButton {
+        let button = UIButton()
+        button.setTitle(text, for: .normal)
+        button.setTitleColor(textColor, for: .normal)
+        if cornerRadius != 0 {
+            button.layer.cornerRadius = cornerRadius
+        }
+        button.backgroundColor = backgroundColor
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
+    
     static func imageView(image: UIImage? = nil, contentMode: UIView.ContentMode, tintColor: UIColor? = nil) -> UIImageView {
         let imageView = UIImageView(image: image)
         imageView.contentMode = contentMode
@@ -40,6 +52,35 @@ final class UIFactory {
         }
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }
+    
+    static func textField(font: UIFont = .systemFont(ofSize: .FontSize.regular.value), placeholder: String = "", textColor: UIColor = .white, keyBoardType: UIKeyboardType) -> UITextField {
+        let textField = Textfield(frame: .zero)
+        textField.textColor = textColor
+        textField.keyboardType = keyBoardType
+        textField.placeholder = placeholder
+        return textField
+    }
+    
+    static func stackView(axis: NSLayoutConstraint.Axis, spacing: CGFloat = 0) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = axis
+        stackView.spacing = spacing
+        stackView.distribution = .equalSpacing
+        return stackView
+    }
+    
+}
+
+final class Textfield: UITextField {
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: 1.0)
+        bottomLine.backgroundColor = UIColor.gray.cgColor
+        layer.addSublayer(bottomLine)
     }
     
 }

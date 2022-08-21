@@ -8,6 +8,19 @@
 import UIKit
 import CoreData
 
+/// Protocol for CartList Presenter delegate
+protocol CartListPresenterDelegate: UIViewController {
+    func loadItemList()
+    func showAlert(title: String, message: String, alertActions: [AlertAction])
+    
+    func itemsWillUpdate()
+    func itemsUpdated()
+    func insertItem(at indexpath: IndexPath)
+    func updateItem(at indices: [IndexPath])
+    func removeItem(at indexpath: IndexPath)
+    func updateFooter(at section: Int)
+}
+
 /// Protocol for cartlist presenter
 protocol CartListPresentable {
     var delegate: CartListPresenterDelegate? { get set }
@@ -18,20 +31,9 @@ protocol CartListPresentable {
     func itemModelFor(at index: Int) -> CartItem.Object?
     func changeItemQuantityFor(_ index: Int, increase: Bool)
     func getGrandTotal() -> Float
-}
-
-/// Protocol for CartList Presenter delegate
-protocol CartListPresenterDelegate: UIViewController {
-    func loadItemList()
-    func showLoadingUI()
-    func showAlert(title: String, message: String, alertActions: [AlertAction])
+    func addItem()
     
-    func itemsWillUpdate()
-    func itemsUpdated()
-    func insertItem(at indexpath: IndexPath)
-    func updateItem(at indices: [IndexPath])
-    func removeItem(at indexpath: IndexPath)
-    func updateFooter(at section: Int)
+    func imageFor(_ name: String) -> UIImage?
 }
 
 enum CartListError: LocalizedError {
@@ -46,20 +48,24 @@ enum CartListError: LocalizedError {
 }
 
 /// Presenter of Cart list
-class CartListPresenter: NSObject, CartListPresentable {
+final class CartListPresenter: NSObject, CartListPresentable {
+    
+    let databaseupdateQueue = DispatchQueue(label: "databaseupdateQueue")
     
     typealias DataModel = CartItem
 
-    private let localCartItemRepository: LocalRepository<DataModel>
+    private let updatecartItemUseCase: UpdateCartItemUseCase
     private let router: CartListRoutable
+    private let database: StorageProvider
+    private let imageManager: ImageManagable
+    
     private var cartItems: [CartItem] {
         var cartItems = [CartItem]()
-        dbContext.performAndWait({
+        database.getBgContext().performAndWait({
             cartItems = fetchedResultsController.fetchedObjects ?? []
         })
         return cartItems
     }
-    private let dbContext: NSManagedObjectContext
     
     lazy var fetchedResultsController: NSFetchedResultsController<DataModel> = {
         let request = NSFetchRequest<DataModel>(entityName: DataModel.entityName)
@@ -68,7 +74,7 @@ class CartListPresenter: NSObject, CartListPresentable {
         request.fetchBatchSize = 20
         request.returnsObjectsAsFaults = false
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: dbContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: database.getBgContext(), sectionNameKeyPath: nil, cacheName: nil)
         return fetchedResultsController
     }()
 
@@ -80,10 +86,11 @@ class CartListPresenter: NSObject, CartListPresentable {
         }
     }
     
-    init(router: CartListRoutable, localCartItemRepository: LocalRepository<CartItem>, dbContext: NSManagedObjectContext) {
+    init(router: CartListRoutable, updatecartItemUseCase: UpdateCartItemUseCase, database: StorageProvider, imageManager: ImageManagable) {
         self.router = router
-        self.localCartItemRepository = localCartItemRepository
-        self.dbContext = dbContext
+        self.updatecartItemUseCase = updatecartItemUseCase
+        self.database = database
+        self.imageManager = imageManager
     }
 
     func setup() {
@@ -115,14 +122,10 @@ class CartListPresenter: NSObject, CartListPresentable {
         calculateGrandTotalAmount()
     }
     
-    private func addItem(name: String, image: String?, tax: Float, quantity: Int16, price: Float) {
-        let itemObject = CartItem.Object(id: UUID().uuidString, name: name, image: image, tax: tax, quantity: quantity, price: price, updatedAt: Date())
-        localCartItemRepository.create(itemObject)
-    }
-    
     private func delete(id: String) {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), id)
-        localCartItemRepository.delete(predicate)
+        updatecartItemUseCase.delete(predicate)
+        imageManager.deleteImage(name: id + ".jpg")
     }
     
     func changeItemQuantityFor(_ index: Int, increase: Bool) {
@@ -136,14 +139,14 @@ class CartListPresenter: NSObject, CartListPresentable {
             try updateItemIfValid(itemModel)
             grandTotalAmount += (increase ? 1 : -1) * itemModel.price
         } catch {
-            delegate?.showAlert(title: "ShoppingCart", message: error.localizedDescription, alertActions: [.delete(deleteCurrentItem), .cancel(nil)])
+            delegate?.showAlert(title: "ShoppingCart", message: error.localizedDescription, alertActions: [.delete(deleteCurrentItem), .cancel])
         }
     }
     
     private func updateItemIfValid(_ object: CartItem.Object) throws {
         guard object.quantity > 0 else { throw CartListError.quantityIsZero }
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
-        localCartItemRepository.update(predicate, object)
+        updatecartItemUseCase.update(predicate, object)
     }
     
 }
@@ -151,35 +154,49 @@ class CartListPresenter: NSObject, CartListPresentable {
 extension CartListPresenter: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.itemsWillUpdate()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            debugPrint("Item created for row: \(String(describing: newIndexPath.row))")
-            delegate?.insertItem(at: newIndexPath)
-        case .update:
-            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            debugPrint("Item updated for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
-            delegate?.updateItem(at: [newIndexPath, indexPath])
-        case .move:
-            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            debugPrint("Item moved for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
-            delegate?.updateItem(at: [newIndexPath, indexPath])
-        case .delete:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            debugPrint("Item deleted for row: \(String(describing: indexPath.row))")
-            delegate?.removeItem(at: indexPath)
-        @unknown default: break
+        databaseupdateQueue.sync {
+            delegate?.itemsWillUpdate()
         }
     }
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        databaseupdateQueue.sync {
+            switch type {
+            case .insert:
+                guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+                debugPrint("Item created for row: \(String(describing: newIndexPath.row))")
+                if let entity = anObject as? CartItem {
+                    grandTotalAmount += entity.createObject().calculateTotalPrice()
+                }
+                delegate?.insertItem(at: newIndexPath)
+            case .update:
+                guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                debugPrint("Item updated for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
+                delegate?.updateItem(at: [newIndexPath, indexPath])
+            case .move:
+                guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                debugPrint("Item moved for rows: \(String(describing: newIndexPath.row)) , \(String(describing: indexPath.row))")
+                delegate?.updateItem(at: [newIndexPath, indexPath])
+            case .delete:
+                guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+                debugPrint("Item deleted for row: \(String(describing: indexPath.row))")
+                if let entity = anObject as? CartItem {
+                    grandTotalAmount -= entity.createObject().calculateTotalPrice()
+                }
+                delegate?.removeItem(at: indexPath)
+            @unknown default: break
+            }
+        }
+        
+    }
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.itemsUpdated()
+        
+        databaseupdateQueue.sync {
+            delegate?.itemsUpdated()
+        }
     }
     
 }
@@ -192,6 +209,14 @@ extension CartListPresenter {
     
     func getGrandTotal() -> Float {
         grandTotalAmount
+    }
+    
+    func addItem() {
+        router.presentAddItemView(with: database, imageManager: imageManager)
+    }
+    
+    func imageFor(_ name: String) -> UIImage? {
+        try? imageManager.getImage(name: name)
     }
     
 }

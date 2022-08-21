@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// The builder of CartListViewBuilder
+/// The builder of CartList Module
 struct CartListViewBuilder: ViewBuilder {
     
     private let database: StorageProvider
@@ -23,13 +23,15 @@ struct CartListViewBuilder: ViewBuilder {
         
         /// presenter dependencies
         let router =  CartListRouter(performer: vc)
-        let localCartItemRepository = LocalRepository<CartItem>(storageProvider: database)
-        let dbContext = database.getBgContext()
+        let localRepository = LocalRepository<CartItem>(storageProvider: database)
+        let updateCartItemUsecase = UpdateCartItemUseCase(localCartItemRepository: localRepository)
+        let imageManager = ImageManager()
         
         let presenter = CartListPresenter(
             router: router,
-            localCartItemRepository: localCartItemRepository,
-            dbContext: dbContext)
+            updatecartItemUseCase: updateCartItemUsecase,
+            database: database,
+            imageManager: imageManager)
         presenter.delegate = vc
         vc.presenter = presenter
         return vc
