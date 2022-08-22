@@ -27,7 +27,26 @@ final class CartItemController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor(named: "AppGray")
+        setupNavBar()
         addViews()
+    }
+    
+    private func setupNavBar() {
+        let leftBarButton = UIBarButtonItem(image: .chevronLeft, style: .plain, target: self, action: #selector(leftBarButtonClicked))
+        leftBarButton.tintColor = .black
+        navigationItem.leftBarButtonItem = leftBarButton
+        
+        let rightBarButton = UIBarButtonItem(image: .delete, style: .plain, target: self, action: #selector(rightBarButtonClicked))
+        rightBarButton.tintColor = .red
+        navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    @objc private func leftBarButtonClicked() {
+        
+    }
+    
+    @objc private func rightBarButtonClicked() {
+        
     }
     
     private func addViews() {

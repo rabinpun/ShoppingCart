@@ -30,11 +30,11 @@ extension UIImage {
     }
     
     static var chevronLeft: UIImage {
-        
+        UIImage(systemName: "chevron.left")!
     }
     
     static var delete: UIImage {
-        UIImage(named: "xmark.bin")!
+        UIImage(systemName: "xmark.bin")!
     }
     
 }
