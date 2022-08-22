@@ -50,8 +50,7 @@ final class AddItemController: UIViewController {
     
     private let textFields = TextFieldType.allCases
     
-    
-    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .white, text: "Add product to the cart")
+    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .black, text: "Add product to the cart")
     
     private lazy var textFieldStackView: UIStackView = {
         let stackView = UIFactory.stackView(axis: .vertical)
@@ -60,11 +59,8 @@ final class AddItemController: UIViewController {
     }()
     
     private lazy var interactiveImageView = { InteractiveImageView() }()
-    
     private lazy var createButton = UIFactory.textButton(text: "Create item", cornerRadius: buttonHeight * 0.25)
-    
     private var alertCancellable: AnyCancellable?
-    
     private let imagePickerController = UIImagePickerController()
     
     override func viewDidLoad() {

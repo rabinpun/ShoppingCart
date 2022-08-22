@@ -9,17 +9,17 @@ import UIKit
 
 class CartListFooter: UITableViewHeaderFooterView {
     
-    lazy var grandTotalLabel: UILabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold), text: "Grand Total: ")
-    
-    lazy var totalAmountLabel: UILabel = UIFactory.label()
+    private let buttonHeight: CGFloat = 40
+    lazy var grandTotalLabel: UILabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold), textColor: .white, text: "Grand Total: ")
+    private lazy var payButton = UIFactory.textButton(text: "Continue Payment", textColor: .systemGreen, backgroundColor: .white, cornerRadius: buttonHeight * 0.25, borderColor: .systemGreen)
+    lazy var totalAmountLabel: UILabel = UIFactory.label(textColor: .white)
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         
         totalAmountLabel.textAlignment = .right
-        contentView.backgroundColor = .white
-        contentView.addSubview(grandTotalLabel)
-        contentView.addSubview(totalAmountLabel)
+        contentView.backgroundColor = .black
+        [grandTotalLabel, totalAmountLabel, payButton].forEach({ contentView.addSubview($0) })
     }
     
     required init?(coder: NSCoder) {
@@ -30,18 +30,23 @@ class CartListFooter: UITableViewHeaderFooterView {
     private func generateChildrens() {
         NSLayoutConstraint.activate([
             grandTotalLabel.trailingAnchor.constraint(equalTo: totalAmountLabel.leadingAnchor, constant: -20),
-            grandTotalLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            grandTotalLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             
             totalAmountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            totalAmountLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            totalAmountLabel.centerYAnchor.constraint(equalTo: grandTotalLabel.centerYAnchor),
         
+            payButton.topAnchor.constraint(equalTo: totalAmountLabel.bottomAnchor, constant: 10),
+            payButton.trailingAnchor.constraint(equalTo: totalAmountLabel.trailingAnchor),
+            payButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+            payButton.widthAnchor.constraint(equalToConstant: 200),
+            
         ])
         
     }
     
     /// Configure the header vuew
     func configure(total: Float) {
-        totalAmountLabel.text = "\(total)"
+        totalAmountLabel.text = "$\(total)"
         generateChildrens()
     }
 }

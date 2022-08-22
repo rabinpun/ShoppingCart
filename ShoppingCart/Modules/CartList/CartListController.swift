@@ -12,7 +12,8 @@ import Combine
 final class CartListController: UIViewController {
     
     private let tableCellHeight: CGFloat = 70
-    private let tableHeaderHeight: CGFloat = 40, tableFooterHeight: CGFloat = 40
+    private let tableHeaderHeight: CGFloat = 40
+    private let tableFooterHeight: CGFloat = 100
     private var alertCancellable: AnyCancellable?
     
     var presenter: CartListPresentable!

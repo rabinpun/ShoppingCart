@@ -118,12 +118,12 @@ class CartListCell: UITableViewCell {
         
         itemNameLabel.text = item.name
         itemImageView.image = item.image != nil ? UIImage(systemName: item.image!) : UIImage(systemName: "photo")
-        let priceText = "\(item.price) \n(\(item.tax)%)"
+        let priceText = "$\(item.price) \n(\(item.tax)%)"
         let attributedString = NSMutableAttributedString(string: priceText)
         let nsRange = NSString(string: priceText).range(of: "(\(item.tax)%)", options: .caseInsensitive)
         attributedString.addAttributes([.font: UIFont.systemFont(ofSize: .FontSize.small.value), .foregroundColor: UIColor.lightGray], range: nsRange)
         priceLabel.attributedText = attributedString
         quantityLabel.text = "\(item.quantity)"
-        totalAmountLabel.text = "\(item.calculateTotalPrice())"
+        totalAmountLabel.text = "$\(item.calculateTotalPrice())"
     }
 }
