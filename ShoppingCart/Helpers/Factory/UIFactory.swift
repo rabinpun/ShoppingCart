@@ -9,13 +9,13 @@ import UIKit
 
 final class UIFactory {
     
-    static func label(font: UIFont = .systemFont(ofSize: .FontSize.regular.value), textColor: UIColor = .black, text: String = "") -> UILabel {
+    static func label(font: UIFont = .systemFont(ofSize: .FontSize.regular.value), textColor: UIColor = .black, text: String = "", tAMIC: Bool = false) -> UILabel {
         let label = UILabel(frame: .zero)
         label.font = font
         label.textColor = textColor
         label.text = text
         label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = tAMIC
         return label
     }
     
@@ -67,11 +67,12 @@ final class UIFactory {
         return textField
     }
     
-    static func stackView(axis: NSLayoutConstraint.Axis, spacing: CGFloat = 0) -> UIStackView {
+    static func stackView(axis: NSLayoutConstraint.Axis, spacing: CGFloat = 0, tAMIC: Bool = false) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = axis
         stackView.spacing = spacing
         stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = tAMIC
         return stackView
     }
     

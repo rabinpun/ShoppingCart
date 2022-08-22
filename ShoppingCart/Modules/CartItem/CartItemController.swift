@@ -6,11 +6,13 @@
 //
 
 import UIKit
-import CoreAudioTypes
+import Combine
 
 final class CartItemController: UIViewController {
     
     var presenter: CartItemPresentable!
+    
+    var alertCancellable: AnyCancellable?
     
     private lazy var updateStack: UIStackView = {
        let stackView = UIFactory.stackView(axis: .horizontal)
@@ -23,15 +25,16 @@ final class CartItemController: UIViewController {
     }()
     lazy var deductButton = UIFactory.imageButton(image: .minus, tintColor: .red)
     lazy var addButton = UIFactory.imageButton(image: .plus, fill: true, tintColor: .green)
-    lazy var quantityLabel = UIFactory.label(text: "0")
+    lazy var quantityLabel = UIFactory.label(text: "\(presenter.getItemObject().quantity)")
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor(named: "AppGray")
-        setupNavBar()
+        title = "Product Detail"
+        setupButtons()
         addViews()
     }
     
-    private func setupNavBar() {
+    private func setupButtons() {
         let leftBarButton = UIBarButtonItem(image: .chevronLeft, style: .plain, target: self, action: #selector(leftBarButtonClicked))
         leftBarButton.tintColor = .black
         navigationItem.leftBarButtonItem = leftBarButton
@@ -39,14 +42,25 @@ final class CartItemController: UIViewController {
         let rightBarButton = UIBarButtonItem(image: .delete, style: .plain, target: self, action: #selector(rightBarButtonClicked))
         rightBarButton.tintColor = .red
         navigationItem.rightBarButtonItem = rightBarButton
+        
+        addButton.addTarget(self, action:  #selector(addButtonClicked), for: .touchUpInside)
+        deductButton.addTarget(self, action:  #selector(minusButtonClicked), for: .touchUpInside)
     }
     
     @objc private func leftBarButtonClicked() {
-        
+        presenter.goBack()
     }
     
     @objc private func rightBarButtonClicked() {
-        
+        presenter.deleteItem()
+    }
+    
+    @objc private func addButtonClicked() {
+        presenter.updateQuantity(increase: true)
+    }
+    
+    @objc private func minusButtonClicked() {
+        presenter.updateQuantity(increase: false)
     }
     
     private func addViews() {
@@ -113,11 +127,13 @@ final class CartItemController: UIViewController {
 extension CartItemController: CartItemPresenterDelegate {
     
     func updateQuantity(_ value: Int16) {
-        
+        quantityLabel.text = "\(value)"
     }
     
     func showAlert(title: String, message: String, alertActions: [AlertAction]) {
-        
+        alertCancellable = alert(title: title, msg: message, actions: alertActions).sink { alert in
+            alert.actionClosure?()
+        }
     }
     
 }

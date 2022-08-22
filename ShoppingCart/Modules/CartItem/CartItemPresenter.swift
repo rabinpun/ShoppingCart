@@ -16,17 +16,18 @@ protocol CartItemPresentable: AnyObject {
     func getItemImage() -> UIImage
     func deleteProduct()
     func updateQuantity(increase: Bool)
-    func updateProduct()
+    func deleteItem()
+    func goBack()
 }
 
-protocol CartItemPresenterDelegate {
+protocol CartItemPresenterDelegate: UIViewController {
     func updateQuantity(_ value: Int16)
     func showAlert(title: String, message: String, alertActions: [AlertAction])
 }
 
 final class CartItemPresenter: NSObject, CartItemPresentable {
     
-    var delegate: CartItemPresenterDelegate?
+    weak var delegate: CartItemPresenterDelegate?
     
     private let updatecartItemUseCase: UpdateCartItemUseCase
     private let router: CartItemRouter
@@ -50,6 +51,7 @@ final class CartItemPresenter: NSObject, CartItemPresentable {
     
     func deleteProduct() {
         updatecartItemUseCase.delete(NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), productModel.id))
+        router.popView()
     }
     
     func updateQuantity(increase: Bool) {
@@ -57,11 +59,12 @@ final class CartItemPresenter: NSObject, CartItemPresentable {
         delegate?.updateQuantity(productModel.quantity)
     }
     
-    func updateProduct() {
+    private func updateProduct() {
         do {
             try updateItemIfValid(productModel)
+            router.popView()
         } catch {
-            delegate?.showAlert(title: "ShoppingCart", message: error.localizedDescription, alertActions: [.delete(deleteProduct), .cancel])
+            delegate?.showAlert(title: "Quantity is zero.", message: error.localizedDescription, alertActions: [.delete(deleteProduct), .cancel])
         }
     }
     
@@ -69,6 +72,14 @@ final class CartItemPresenter: NSObject, CartItemPresentable {
         guard object.quantity > 0 else { throw CartListError.quantityIsZero }
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
         updatecartItemUseCase.update(predicate, object)
+    }
+    
+    func deleteItem() {
+        delegate?.showAlert(title: "ShoppingCart", message: "Do you want to delete this item?", alertActions: [.delete(deleteProduct), .cancel])
+    }
+    
+    func goBack() {
+        updateProduct()
     }
     
 }

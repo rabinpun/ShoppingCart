@@ -139,7 +139,7 @@ final class CartListPresenter: NSObject, CartListPresentable {
             try updateItemIfValid(itemModel)
             grandTotalAmount += (increase ? 1 : -1) * itemModel.price
         } catch {
-            delegate?.showAlert(title: "ShoppingCart", message: error.localizedDescription, alertActions: [.delete(deleteCurrentItem), .cancel])
+            delegate?.showAlert(title: "Quantity is zero.", message: error.localizedDescription, alertActions: [.delete(deleteCurrentItem), .cancel])
         }
     }
     
