@@ -29,5 +29,13 @@ extension UIImage {
         UIImage(named: "profileImage")!
     }
     
+    static var chevronLeft: UIImage {
+        
+    }
+    
+    static var delete: UIImage {
+        UIImage(named: "xmark.bin")!
+    }
+    
 }
 
