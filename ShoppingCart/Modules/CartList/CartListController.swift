@@ -51,7 +51,7 @@ final class CartListController: UIViewController {
     }
     
     private func setupNavigationButtons() {
-        let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(rightBarButtonClicked))
+        let rightBarButton = UIBarButtonItem(image: .plus, style: .done, target: self, action: #selector(rightBarButtonClicked))
         rightBarButton.tintColor = .black
         navigationItem.rightBarButtonItem = rightBarButton
         
@@ -81,6 +81,9 @@ extension CartListController: CartListPresenterDelegate {
 /// Table view delegate confirmance
 extension CartListController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.didSelectItem(at: indexPath.row)
+    }
     
 }
 

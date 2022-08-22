@@ -10,7 +10,7 @@ import UIKit
 /// Protocol for cartlist router
 protocol CartListRoutable {
     func presentAddItemView(with database: StorageProvider, imageManager: ImageManagable)
-    func pushDetailView(with cartItem: CartItem.Object)
+    func pushDetailView(with cartItem: CartItem.Object, image: UIImage, updateItemUseCase: UpdateCartItemUseCase)
 }
 
 /// Router for cartlist
@@ -22,7 +22,9 @@ struct CartListRouter: CartListRoutable {
         self.performer = performer
     }
     
-    func pushDetailView(with cartItem: CartItem.Object) {
+    func pushDetailView(with cartItem: CartItem.Object, image: UIImage, updateItemUseCase: UpdateCartItemUseCase) {
+        let vc = CartItemViewBuilder(updatecartItemUseCase: updateItemUseCase, productModel: cartItem, image: image).build()
+        self.performer.navigationController?.pushViewController(vc, animated: true)
     }
     
     func presentAddItemView(with database: StorageProvider, imageManager: ImageManagable) {

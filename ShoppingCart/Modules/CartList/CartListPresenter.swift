@@ -104,7 +104,8 @@ final class CartListPresenter: NSObject, CartListPresentable {
     
     func didSelectItem(at index: Int) {
         let cartItem = cartItems[index].createObject()
-        router.pushDetailView(with: cartItem)
+        let image = cartItem.image != nil ? imageFor(cartItem.image!)! : .defaultPhoto
+        router.pushDetailView(with: cartItem, image: image, updateItemUseCase: updatecartItemUseCase)
     }
     
     func numberOfItems() -> Int {
@@ -125,7 +126,6 @@ final class CartListPresenter: NSObject, CartListPresentable {
     private func delete(id: String) {
         let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), id)
         updatecartItemUseCase.delete(predicate)
-        imageManager.deleteImage(name: id + ".jpg")
     }
     
     func changeItemQuantityFor(_ index: Int, increase: Bool) {
@@ -182,8 +182,9 @@ extension CartListPresenter: NSFetchedResultsControllerDelegate {
             case .delete:
                 guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
                 debugPrint("Item deleted for row: \(String(describing: indexPath.row))")
-                if let entity = anObject as? CartItem {
-                    grandTotalAmount -= entity.createObject().calculateTotalPrice()
+                if let object = (anObject as? CartItem)?.createObject() {
+                    grandTotalAmount -= object.calculateTotalPrice()
+                    imageManager.deleteImage(name: object.id + ".jpg")
                 }
                 delegate?.removeItem(at: indexPath)
             @unknown default: break
