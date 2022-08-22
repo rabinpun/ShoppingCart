@@ -31,12 +31,16 @@ final class UIFactory {
         return button
     }
     
-    static func textButton(text: String, textColor: UIColor = .white, backgroundColor: UIColor = .black, cornerRadius: CGFloat = 0) -> UIButton {
+    static func textButton(text: String, textColor: UIColor = .white, backgroundColor: UIColor = .black, cornerRadius: CGFloat = 0, borderColor: UIColor? = nil) -> UIButton {
         let button = UIButton()
         button.setTitle(text, for: .normal)
         button.setTitleColor(textColor, for: .normal)
         if cornerRadius != 0 {
             button.layer.cornerRadius = cornerRadius
+        }
+        if let borderColor = borderColor {
+            button.layer.borderColor = borderColor.cgColor
+            button.layer.borderWidth = 1
         }
         button.backgroundColor = backgroundColor
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -50,6 +54,7 @@ final class UIFactory {
             imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
             imageView.tintColor = tintColor
         }
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }

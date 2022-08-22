@@ -12,7 +12,8 @@ import Combine
 final class CartListController: UIViewController {
     
     private let tableCellHeight: CGFloat = 70
-    private let tableHeaderHeight: CGFloat = 40, tableFooterHeight: CGFloat = 40
+    private let tableHeaderHeight: CGFloat = 40
+    private let tableFooterHeight: CGFloat = 100
     private var alertCancellable: AnyCancellable?
     
     var presenter: CartListPresentable!
@@ -20,16 +21,19 @@ final class CartListController: UIViewController {
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.registerCell(CartListCell.self)
-        view.registerCell(ListErrorCell.self)
         view.registerHeaderFooter(CartListHeader.self)
         view.registerHeaderFooter(CartListFooter.self)
+        let headerView = CartListHeaderView()
+        headerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100)
+        view.tableHeaderView = headerView
         view.separatorStyle = .singleLine
-        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     override func viewDidLoad() {
-        view.backgroundColor = .systemTeal
+        view.backgroundColor = .white
+        title = "Your orders"
         presenter.setup()
         setupNavigationButtons()
         addTableView()
@@ -37,7 +41,13 @@ final class CartListController: UIViewController {
     
     private func addTableView() {
         view.addSubview(tableView)
-        tableView.frame = view.frame
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
     }
     
     private func setupNavigationButtons() {
@@ -77,12 +87,11 @@ extension CartListController: UITableViewDelegate {
 /// Table view datasource confirmance
 extension CartListController: UITableViewDataSource {
     
+    private var listIsEmpty: Bool {
+        presenter.numberOfItems() == 0
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if presenter.numberOfItems() == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ListErrorCell.identifier, for: indexPath) as! ListErrorCell
-            cell.configure(with: "No items in cart.")
-            return cell
-        }
         guard let itemModel = presenter.itemModelFor(at: indexPath.row) else { fatalError("Item for index is not present.") }
         let cell = tableView.dequeueReusableCell(withIdentifier: CartListCell.identifier, for: indexPath) as! CartListCell
         cell.configure(with: itemModel, delegate: self)
@@ -93,19 +102,22 @@ extension CartListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter.numberOfItems() == 0 ? 1 : presenter.numberOfItems()
+        listIsEmpty ? tableView.setEmptyMessage("No items in cart.") : tableView.restore()
+        return presenter.numberOfItems()
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard !listIsEmpty else { return nil }
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartListHeader.identifier) as! CartListHeader
         header.configure()
         return header
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartListFooter.identifier) as! CartListFooter
-        header.configure(total: presenter.getGrandTotal())
-        return header
+        guard !listIsEmpty else { return nil }
+        let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartListFooter.identifier) as! CartListFooter
+        footer.configure(total: presenter.getGrandTotal())
+        return footer
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -113,11 +125,11 @@ extension CartListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        tableHeaderHeight
+        listIsEmpty ? 0 : tableHeaderHeight
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        tableFooterHeight
+        listIsEmpty ? 0 : tableFooterHeight
     }
     
 }
@@ -172,7 +184,7 @@ extension CartListController {
     
     func updateFooter(at section: Int) {
         DispatchQueue.main.async {
-            let footerView = self.tableView.footerView(forSection: section) as! CartListFooter
+            guard let footerView = self.tableView.footerView(forSection: section) as? CartListFooter else { return }
             footerView.configure(total: self.presenter.getGrandTotal())
         }
     }

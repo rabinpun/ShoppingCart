@@ -18,4 +18,17 @@ extension UITableView {
     func registerHeaderFooter<T: UITableViewHeaderFooterView>(_ headerFooterClass: T.Type) {
         register(headerFooterClass, forHeaderFooterViewReuseIdentifier: T.identifier)
     }
+    
+    func setEmptyMessage(_ message: String) {
+        
+        let label = UIFactory.label(text: message)
+        label.textAlignment = .center
+        self.backgroundView = label
+        self.separatorStyle = .none
+        }
+
+    func restore() {
+        self.backgroundView = nil
+        self.separatorStyle = .singleLine
+    }
 }

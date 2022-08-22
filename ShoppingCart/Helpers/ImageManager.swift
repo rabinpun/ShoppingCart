@@ -34,6 +34,7 @@ final class ImageManager: ImageManagable {
     }
     
     func getImage(name: String) throws -> UIImage? {
+        guard InitialItem(rawValue: name) == nil else { return UIImage(named: name) }
         if let image = imageCache[name] {
             return image
         }

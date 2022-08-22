@@ -18,7 +18,7 @@ final class InteractiveImageView: UIView {
     
     private lazy var addButton = UIFactory.imageButton(image: UIImage(systemName: "plus")!, fill: true, tintColor: .green)
     private lazy var removeButton = UIFactory.imageButton(image: UIImage(systemName: "multiply")!, fill: true, tintColor: .red)
-    private lazy var imageView = UIFactory.imageView(image: UIImage(systemName: "photo"),contentMode: .scaleAspectFit)
+    private lazy var imageView = UIFactory.imageView(image: UIImage(systemName: "photo"),contentMode: .scaleAspectFit, tintColor: .black)
     
     override init(frame: CGRect) {
         super.init(frame: .zero)

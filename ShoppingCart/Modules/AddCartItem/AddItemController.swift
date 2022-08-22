@@ -50,8 +50,7 @@ final class AddItemController: UIViewController {
     
     private let textFields = TextFieldType.allCases
     
-    
-    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .white, text: "Add product to the cart")
+    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .black, text: "Add product to the cart")
     
     private lazy var textFieldStackView: UIStackView = {
         let stackView = UIFactory.stackView(axis: .vertical)
@@ -60,15 +59,12 @@ final class AddItemController: UIViewController {
     }()
     
     private lazy var interactiveImageView = { InteractiveImageView() }()
-    
     private lazy var createButton = UIFactory.textButton(text: "Create item", cornerRadius: buttonHeight * 0.25)
-    
     private var alertCancellable: AnyCancellable?
-    
     private let imagePickerController = UIImagePickerController()
     
     override func viewDidLoad() {
-        view.backgroundColor = .systemTeal
+        view.backgroundColor = .white
         
         imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
@@ -101,14 +97,14 @@ final class AddItemController: UIViewController {
             textFieldStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             textFieldStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             textFieldStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            textFieldStackView.heightAnchor.constraint(equalToConstant: 300),
+            textFieldStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             
             interactiveImageView.widthAnchor.constraint(equalToConstant: 100),
             interactiveImageView.heightAnchor.constraint(equalToConstant: 100),
             interactiveImageView.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
-            interactiveImageView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 20),
+            interactiveImageView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 10),
             
-            createButton.topAnchor.constraint(equalTo: interactiveImageView.bottomAnchor, constant: 50),
+            createButton.topAnchor.constraint(equalTo: interactiveImageView.bottomAnchor, constant: 10),
             createButton.centerXAnchor.constraint(equalTo: textFieldStackView.centerXAnchor),
             createButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             createButton.widthAnchor.constraint(equalToConstant: 120),
