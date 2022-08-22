@@ -50,6 +50,7 @@ final class UIFactory {
             imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
             imageView.tintColor = tintColor
         }
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }

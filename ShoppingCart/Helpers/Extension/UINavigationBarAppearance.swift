@@ -15,7 +15,7 @@ extension UINavigationBarAppearance {
         let smallFont = UIFont.systemFont(ofSize: .FontSize.regular.value)
 
         let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.backgroundColor = .white
+        navigationBarAppearance.backgroundColor = .systemTeal
         navigationBarAppearance.shadowColor = .clear
         navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black, .font: smallFont]
         navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black, .font: largeFont]
