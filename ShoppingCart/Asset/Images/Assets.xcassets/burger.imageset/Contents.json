@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "burger.jpg",
+      "filename" : "burger@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "burger@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

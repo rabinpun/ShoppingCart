@@ -32,6 +32,7 @@ final class CartListController: UIViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = .white
+        title = "Your orders"
         presenter.setup()
         setupNavigationButtons()
         addTableView()

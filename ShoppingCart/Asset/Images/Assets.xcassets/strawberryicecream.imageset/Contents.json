@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "strawberryicecream.jpg",
+      "filename" : "strawberryicecream@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "strawberryicecream@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "chowmein.jpg",
+      "filename" : "chowmein@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "chowmein@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

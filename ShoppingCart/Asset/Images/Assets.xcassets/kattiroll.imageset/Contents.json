@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "kattiroll.jpg",
+      "filename" : "kattiroll@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "kattiroll@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

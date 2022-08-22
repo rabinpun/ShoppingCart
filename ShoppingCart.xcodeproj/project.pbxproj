@@ -732,6 +732,9 @@
 				DEVELOPMENT_TEAM = K7AB4TLJ34;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShoppingCart/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FoodieApp;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera access for Shopping Cart";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow photos access for Shopping Cart";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -760,6 +763,9 @@
 				DEVELOPMENT_TEAM = K7AB4TLJ34;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShoppingCart/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FoodieApp;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera access for Shopping Cart";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow photos access for Shopping Cart";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

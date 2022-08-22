@@ -68,7 +68,7 @@ final class AddItemController: UIViewController {
     private let imagePickerController = UIImagePickerController()
     
     override func viewDidLoad() {
-        view.backgroundColor = .systemTeal
+        view.backgroundColor = .white
         
         imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
