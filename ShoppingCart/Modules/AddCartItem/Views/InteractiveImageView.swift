@@ -16,9 +16,9 @@ final class InteractiveImageView: UIView {
     
     weak var delegate: InteractiveImageViewDelegate?
     
-    private lazy var addButton = UIFactory.imageButton(image: UIImage(systemName: "plus")!, fill: true, tintColor: .green)
-    private lazy var removeButton = UIFactory.imageButton(image: UIImage(systemName: "multiply")!, fill: true, tintColor: .red)
-    private lazy var imageView = UIFactory.imageView(image: UIImage(systemName: "photo"),contentMode: .scaleAspectFit, tintColor: .black)
+    private lazy var addButton = UIFactory.imageButton(image: .plus, fill: true, tintColor: .green)
+    private lazy var removeButton = UIFactory.imageButton(image: .multiply, fill: true, tintColor: .red)
+    private lazy var imageView = UIFactory.imageView(image: .defaultPhoto,contentMode: .scaleAspectFit, tintColor: .black)
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -67,7 +67,7 @@ final class InteractiveImageView: UIView {
     }
     
     func setImage(_ image: UIImage?) {
-        imageView.image = image != nil ? image : UIImage(systemName: "photo")
+        imageView.image = image != nil ? image : .defaultPhoto
         addButton.isHidden = image != nil
         removeButton.isHidden = image == nil
     }

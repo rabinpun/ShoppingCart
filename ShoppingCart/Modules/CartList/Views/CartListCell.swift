@@ -26,9 +26,9 @@ class CartListCell: UITableViewCell {
     
     lazy var priceLabel = UIFactory.label()
     
-    lazy var deductButton = UIFactory.imageButton(image: UIImage(systemName: "minus")!, tintColor: .red)
+    lazy var deductButton = UIFactory.imageButton(image: .minus, tintColor: .red)
     
-    lazy var addButton = UIFactory.imageButton(image: UIImage(systemName: "plus")!, tintColor: .green)
+    lazy var addButton = UIFactory.imageButton(image: .plus, tintColor: .green)
     
     lazy var quantityLabel = UIFactory.label()
     
@@ -117,7 +117,7 @@ class CartListCell: UITableViewCell {
         selectionStyle = .none
         
         itemNameLabel.text = item.name
-        itemImageView.image = item.image != nil ? UIImage(systemName: item.image!) : UIImage(systemName: "photo")
+        itemImageView.image = item.image != nil ? UIImage(systemName: item.image!) : .defaultPhoto
         let priceText = "$\(item.price) \n(\(item.tax)%)"
         let attributedString = NSMutableAttributedString(string: priceText)
         let nsRange = NSString(string: priceText).range(of: "(\(item.tax)%)", options: .caseInsensitive)
