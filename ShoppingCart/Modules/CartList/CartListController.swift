@@ -22,9 +22,8 @@ final class CartListController: UIViewController {
         view.registerCell(CartListCell.self)
         view.registerHeaderFooter(CartListHeader.self)
         view.registerHeaderFooter(CartListFooter.self)
-        let headerView = UIView()
-        headerView.backgroundColor = .red
-        headerView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        let headerView = CartListHeaderView()
+        headerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100)
         view.tableHeaderView = headerView
         view.separatorStyle = .singleLine
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -114,9 +113,9 @@ extension CartListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         guard !listIsEmpty else { return nil }
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartListFooter.identifier) as! CartListFooter
-        header.configure(total: presenter.getGrandTotal())
-        return header
+        let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: CartListFooter.identifier) as! CartListFooter
+        footer.configure(total: presenter.getGrandTotal())
+        return footer
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
