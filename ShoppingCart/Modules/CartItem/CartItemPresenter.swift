@@ -16,9 +16,11 @@ protocol CartItemPresentable: AnyObject {
     func getItemImage() -> UIImage
     func deleteProduct()
     func updateQuantity(increase: Bool)
+    func updateProduct()
 }
 
 protocol CartItemPresenterDelegate {
+    func updateQuantity(_ value: Int16)
     func showAlert(title: String, message: String, alertActions: [AlertAction])
 }
 
@@ -51,20 +53,22 @@ final class CartItemPresenter: NSObject, CartItemPresentable {
     }
     
     func updateQuantity(increase: Bool) {
-        var newQuantity = productModel.quantity
-        newQuantity += increase ? 1 : -1
+        productModel.quantity += increase ? 1 : ( productModel.quantity > 0 ? -1 : 0)
+        delegate?.updateQuantity(productModel.quantity)
+    }
+    
+    func updateProduct() {
         do {
-            try updateItemIfValid(quantity: newQuantity)
+            try updateItemIfValid(productModel)
         } catch {
             delegate?.showAlert(title: "ShoppingCart", message: error.localizedDescription, alertActions: [.delete(deleteProduct), .cancel])
         }
     }
     
-    private func updateItemIfValid(quantity: Int16) throws {
-        guard quantity > 0 else { throw CartListError.quantityIsZero }
-        let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), productModel.id)
-        productModel.quantity = quantity
-        updatecartItemUseCase.update(predicate, productModel)
+    private func updateItemIfValid(_ object: CartItem.Object) throws {
+        guard object.quantity > 0 else { throw CartListError.quantityIsZero }
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(CartItem.itemId), object.id)
+        updatecartItemUseCase.update(predicate, object)
     }
     
 }
