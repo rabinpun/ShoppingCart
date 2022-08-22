@@ -9,7 +9,7 @@ import UIKit
 
 final class CartListHeaderView: UIView {
     
-    lazy var profileImageView = UIFactory.imageView(image: UIImage(named: "profileImage"),contentMode: .scaleAspectFill)
+    lazy var profileImageView = UIFactory.imageView(image: .profileImage,contentMode: .scaleAspectFill)
     lazy var nameLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.value, weight: .semibold), text: "John Doe")
     lazy var descripionLabel = UIFactory.label(textColor: .lightGray, text: "Kathmandu, Nepal")
     lazy var balanceLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.value), textColor: .systemGreen, text: "$1000")
