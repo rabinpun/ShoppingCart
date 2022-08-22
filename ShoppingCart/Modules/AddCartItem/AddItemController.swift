@@ -101,14 +101,14 @@ final class AddItemController: UIViewController {
             textFieldStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             textFieldStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             textFieldStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            textFieldStackView.heightAnchor.constraint(equalToConstant: 300),
+            textFieldStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             
             interactiveImageView.widthAnchor.constraint(equalToConstant: 100),
             interactiveImageView.heightAnchor.constraint(equalToConstant: 100),
             interactiveImageView.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
-            interactiveImageView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 20),
+            interactiveImageView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor, constant: 10),
             
-            createButton.topAnchor.constraint(equalTo: interactiveImageView.bottomAnchor, constant: 50),
+            createButton.topAnchor.constraint(equalTo: interactiveImageView.bottomAnchor, constant: 10),
             createButton.centerXAnchor.constraint(equalTo: textFieldStackView.centerXAnchor),
             createButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             createButton.widthAnchor.constraint(equalToConstant: 120),

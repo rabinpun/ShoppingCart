@@ -41,19 +41,16 @@ class CartListHeader: UITableViewHeaderFooterView {
             
             
             itemNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 70),
-            itemNameLabel.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -40),
             itemNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            priceLabel.leadingAnchor.constraint(equalTo: itemNameLabel.trailingAnchor, constant: 10),
-            priceLabel.trailingAnchor.constraint(equalTo: quantityLabel.leadingAnchor, constant: 10),
+            priceLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -30),
             priceLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
             
             quantityLabel.trailingAnchor.constraint(equalTo: totalAmountLabel.leadingAnchor, constant: -10),
             quantityLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             quantityLabel.widthAnchor.constraint(equalToConstant: 70),
             
-            totalAmountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            totalAmountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             totalAmountLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             totalAmountLabel.widthAnchor.constraint(equalToConstant: 60),
         

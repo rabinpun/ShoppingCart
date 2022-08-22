@@ -16,10 +16,7 @@ protocol CartListCellDelegate: AnyObject {
 
 class CartListCell: UITableViewCell {
     
-    lazy var itemImageView: UIImageView = {
-        let imageView = UIFactory.imageView(contentMode: .scaleAspectFit)
-        return imageView
-    }()
+    lazy var itemImageView = UIFactory.imageView(contentMode: .scaleAspectFit)
     
     lazy var itemNameLabel: UILabel = {
         let label = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold))
@@ -27,21 +24,13 @@ class CartListCell: UITableViewCell {
         return label
     }()
     
-    lazy var priceLabel: UILabel = {
-        UIFactory.label()
-    }()
+    lazy var priceLabel = UIFactory.label()
     
-    lazy var deductButton: UIButton = {
-        UIFactory.imageButton(image: UIImage(systemName: "minus")!, tintColor: .red)
-    }()
+    lazy var deductButton = UIFactory.imageButton(image: UIImage(systemName: "minus")!, tintColor: .red)
     
-    lazy var addButton: UIButton = {
-        UIFactory.imageButton(image: UIImage(systemName: "plus")!, tintColor: .green)
-    }()
+    lazy var addButton = UIFactory.imageButton(image: UIImage(systemName: "plus")!, tintColor: .green)
     
-    lazy var quantityLabel: UILabel = {
-        UIFactory.label()
-    }()
+    lazy var quantityLabel = UIFactory.label()
     
     lazy var quantityStackView: UIStackView = {
         let stackView = UIFactory.stackView(axis: .horizontal)
@@ -49,9 +38,7 @@ class CartListCell: UITableViewCell {
         return stackView
     }()
     
-    lazy var totalAmountLabel: UILabel = {
-        UIFactory.label()
-    }()
+    lazy var totalAmountLabel = UIFactory.label()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -106,7 +93,7 @@ class CartListCell: UITableViewCell {
             quantityStackView.trailingAnchor.constraint(equalTo: totalAmountLabel.leadingAnchor, constant: -10),
             quantityStackView.centerYAnchor.constraint(equalTo: itemImageView.centerYAnchor),
             quantityStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
-            quantityStackView.widthAnchor.constraint(equalToConstant: 70),
+            quantityStackView.widthAnchor.constraint(equalToConstant: 65),
             
             totalAmountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             totalAmountLabel.centerYAnchor.constraint(equalTo: itemImageView.centerYAnchor),
@@ -131,7 +118,11 @@ class CartListCell: UITableViewCell {
         
         itemNameLabel.text = item.name
         itemImageView.image = item.image != nil ? UIImage(systemName: item.image!) : UIImage(systemName: "photo")
-        priceLabel.text = "\(item.price) \n(\(item.tax)%)"
+        let priceText = "\(item.price) \n(\(item.tax)%)"
+        let attributedString = NSMutableAttributedString(string: priceText)
+        let nsRange = NSString(string: priceText).range(of: "(\(item.tax)%)", options: .caseInsensitive)
+        attributedString.addAttributes([.font: UIFont.systemFont(ofSize: .FontSize.small.value), .foregroundColor: UIColor.lightGray], range: nsRange)
+        priceLabel.attributedText = attributedString
         quantityLabel.text = "\(item.quantity)"
         totalAmountLabel.text = "\(item.calculateTotalPrice())"
     }
