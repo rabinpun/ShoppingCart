@@ -27,6 +27,8 @@ final class InteractiveImageView: UIView {
         addViews()
         addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
         removeButton.addTarget(self, action: #selector(removeButtonClicked), for: .touchUpInside)
+        let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(addButtonClicked))
+        self.addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {

@@ -59,7 +59,7 @@ final class UIFactory {
         return imageView
     }
     
-    static func textField(font: UIFont = .systemFont(ofSize: .FontSize.regular.value), placeholder: String = "", textColor: UIColor = .white, keyBoardType: UIKeyboardType) -> UITextField {
+    static func textField(font: UIFont = .systemFont(ofSize: .FontSize.regular.value), placeholder: String = "", textColor: UIColor = .black, keyBoardType: UIKeyboardType) -> UITextField {
         let textField = Textfield(frame: .zero)
         textField.textColor = textColor
         textField.keyboardType = keyBoardType

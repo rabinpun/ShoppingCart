@@ -34,7 +34,7 @@ extension UIImage {
     }
     
     static var delete: UIImage {
-        UIImage(systemName: "xmark.bin")!
+        UIImage(systemName: "trash")!
     }
     
 }
