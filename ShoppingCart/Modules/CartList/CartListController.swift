@@ -18,7 +18,7 @@ final class CartListController: UIViewController {
     
     var presenter: CartListPresentable!
     
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let view = UITableView()
         view.registerCell(CartListCell.self)
         view.registerHeaderFooter(CartListHeader.self)

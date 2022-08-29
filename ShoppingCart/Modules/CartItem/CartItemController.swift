@@ -12,8 +12,7 @@ final class CartItemController: UIViewController {
     
     var presenter: CartItemPresentable!
     
-    var alertCancellable: AnyCancellable?
-    
+    private var alertCancellable: AnyCancellable?
     private lazy var updateStack: UIStackView = {
        let stackView = UIFactory.stackView(axis: .horizontal)
         stackView.backgroundColor = UIColor(named: "AppGray")
@@ -23,9 +22,9 @@ final class CartItemController: UIViewController {
         stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
         return stackView
     }()
-    lazy var deductButton = UIFactory.imageButton(image: .minus, tintColor: .red)
-    lazy var addButton = UIFactory.imageButton(image: .plus, fill: true, tintColor: .green)
-    lazy var quantityLabel = UIFactory.label(text: "\(presenter.getItemObject().quantity)")
+    private lazy var deductButton = UIFactory.imageButton(image: .minus, tintColor: .red)
+    private lazy var addButton = UIFactory.imageButton(image: .plus, fill: true, tintColor: .green)
+    private lazy var quantityLabel = UIFactory.label(text: "\(presenter.getItemObject().quantity)")
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor(named: "AppGray")
