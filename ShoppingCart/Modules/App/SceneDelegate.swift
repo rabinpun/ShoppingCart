@@ -40,7 +40,7 @@ extension SceneDelegate {
                 parameters[$0.name] = $0.value
             }
             switch view {
-            case "additem":
+            case "addItem":
                 if let name = parameters["name"], let image = parameters["image"], let price = parameters["price"], let tax = parameters["tax"], let quantity = parameters["quantity"] {
                     let object = CartItem.Object(id: "", name: name, image: image, tax: Float(tax) ?? 0, quantity: Int16(quantity) ?? 0, price: Float(price) ?? 0, updatedAt: Date())
                     window!.rootViewController = CartListViewBuilder(database: database).buildWithNavigationController(deepLink: .addItem(object))
