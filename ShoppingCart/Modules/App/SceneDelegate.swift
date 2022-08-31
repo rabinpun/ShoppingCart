@@ -52,4 +52,4 @@ extension SceneDelegate {
     }
 }
 
-//shoppingcart://addItem?name=”Pizza”&&image=”pizza”&&tax=15&&quantity=10&&price=400
+//shoppingcart://addItem?name=Pizza&&image=pizza&&tax=15&&quantity=10&&price=400
