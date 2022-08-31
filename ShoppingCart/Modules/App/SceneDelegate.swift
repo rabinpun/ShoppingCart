@@ -25,10 +25,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func setupInitalView (windowScens: UIWindowScene) {
         window = UIWindow(windowScene: windowScens)
-        let deepLink = DeepLink.addItem(CartItem.Object(id: "", name: "Pizza", image: "pizza", tax: 15, quantity: 10, price: 400, updatedAt: Date()))
-        window!.rootViewController = CartListViewBuilder(database: database).buildWithNavigationController(deepLink: deepLink)
+        window!.rootViewController = CartListViewBuilder(database: database).buildWithNavigationController(deepLink: nil)
         window!.makeKeyAndVisible()
     }
 
 }
 
+extension SceneDelegate {
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let firstUrl = URLContexts.first?.url else { return }
+        if let view = firstUrl.host {
+            var parameters: [String: String] = [:]
+            URLComponents(url: firstUrl, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                parameters[$0.name] = $0.value
+            }
+            switch view {
+            case "additem":
+                if let name = parameters["name"], let image = parameters["image"], let price = parameters["price"], let tax = parameters["tax"], let quantity = parameters["quantity"] {
+                    let object = CartItem.Object(id: "", name: name, image: image, tax: Float(tax) ?? 0, quantity: Int16(quantity) ?? 0, price: Float(price) ?? 0, updatedAt: Date())
+                    window!.rootViewController = CartListViewBuilder(database: database).buildWithNavigationController(deepLink: .addItem(object))
+                }
+            default:
+                break
+            }
+        }
+    }
+}
+
+//shoppingcart://addItem?name=”Pizza”&&image=”pizza”&&tax=15&&quantity=10&&price=400
