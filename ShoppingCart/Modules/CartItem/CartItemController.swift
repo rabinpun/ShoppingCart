@@ -84,7 +84,7 @@ final class CartItemController: UIViewController {
         let nameLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.value, weight: .semibold), text: presenter.getItemObject().name, tAMIC: true)
         [nameLabel, priceLabel].forEach({ nameAndPriceStack.addArrangedSubview($0) })
         
-        let descriptionLabel = UIFactory.label(textColor: .lightGray, text: "\(presenter.getItemObject().name) is a great product. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium turpis augue, ac pulvinar urna blandit eget. Sed sed nisl.")
+        let descriptionLabel = UIFactory.label(textColor: .lightGray, text: LocalizedKey.productDescription(presenter.getItemObject().name).value)
         [nameAndPriceStack, descriptionLabel, updateStack, ].forEach({ mainVerticalContainerStack.addSubview($0) })
         
         [deductButton, quantityLabel, addButton].forEach({ updateStack.addArrangedSubview($0)})

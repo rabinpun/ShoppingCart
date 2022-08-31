@@ -14,7 +14,7 @@ private protocol Localizable {
 }
 
 private struct Localizer {
-    static func localized(key: Localizable, tableName: String? = "English", bundle: Bundle = .main, value: String = "", comment: String = "", param: CVarArg...) -> String {
+    static func localized(key: Localizable, tableName: String? = "Hindi", bundle: Bundle = .main, value: String = "", comment: String = "", param: CVarArg...) -> String {
         let localizedString = NSLocalizedString(key.key, tableName: tableName, bundle: bundle, value: value, comment: comment)
         let value = withVaList(param) { (data) -> String in
             NSString(format: localizedString, locale: NSLocale.current, arguments: data) as String

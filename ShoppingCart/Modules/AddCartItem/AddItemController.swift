@@ -15,13 +15,13 @@ enum TextFieldType: CaseIterable {
     var title: String {
         switch self {
         case .name:
-            return "\(LocalizedKey.itemName.value):"
+            return LocalizedKey.itemName.value
         case .price:
-            return "\(LocalizedKey.price.value):"
+            return LocalizedKey.price.value
         case .quantity:
-            return "\(LocalizedKey.quantity.value):"
+            return LocalizedKey.quantity.value
         case .tax:
-            return "\(LocalizedKey.tax.value):"
+            return LocalizedKey.tax.value
         }
     }
     
@@ -78,7 +78,7 @@ final class AddItemController: UIViewController {
         
         textFields.forEach { textField in
             let stackView = UIFactory.stackView(axis: .vertical, spacing: 10)
-            let label = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold),text: textField.title)
+            let label = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold),text: "\(textField.title):")
             label.translatesAutoresizingMaskIntoConstraints = true
             stackView.addArrangedSubview(label)
             stackView.addArrangedSubview(UIFactory.textField(placeholder: textField.placeholder, keyBoardType: textField.keyboardType))

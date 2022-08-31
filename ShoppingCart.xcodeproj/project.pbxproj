@@ -23,7 +23,12 @@
 		6A81CD1928B3970C009648B7 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A81CD1828B3970C009648B7 /* UIView.swift */; };
 		6AB9CD8528BEF35800BBD1D9 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8228BEF35800BBD1D9 /* Localization.swift */; };
 		6AB9CD8628BEF35800BBD1D9 /* English.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8328BEF35800BBD1D9 /* English.strings */; };
-		6AB9CD8728BEF35800BBD1D9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8428BEF35800BBD1D9 /* Localizable.strings */; };
+		6AB9CD8728BEF35800BBD1D9 /* Hindi.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8428BEF35800BBD1D9 /* Hindi.strings */; };
+		6AB9CD8A28BF09BC00BBD1D9 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8928BF09BC00BBD1D9 /* SettingsPresenter.swift */; };
+		6AB9CD8C28BF09C500BBD1D9 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8B28BF09C500BBD1D9 /* SettingsController.swift */; };
+		6AB9CD8E28BF09D200BBD1D9 /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8D28BF09D200BBD1D9 /* SettingsRouter.swift */; };
+		6AB9CD9028BF09DA00BBD1D9 /* SettingsViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8F28BF09DA00BBD1D9 /* SettingsViewBuilder.swift */; };
+		6AB9CD9328BF0D4200BBD1D9 /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD9228BF0D4200BBD1D9 /* LanguageCell.swift */; };
 		6ABBF83928B1BF1A00DCEFF3 /* CartItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83828B1BF1A00DCEFF3 /* CartItemModel.swift */; };
 		6ABBF83C28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83B28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift */; };
 		6ABBF83E28B1C31C00DCEFF3 /* AddCartItemUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83D28B1C31C00DCEFF3 /* AddCartItemUseCase.swift */; };
@@ -89,7 +94,12 @@
 		6A81CD1828B3970C009648B7 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		6AB9CD8228BEF35800BBD1D9 /* Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		6AB9CD8328BEF35800BBD1D9 /* English.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = English.strings; sourceTree = "<group>"; };
-		6AB9CD8428BEF35800BBD1D9 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		6AB9CD8428BEF35800BBD1D9 /* Hindi.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Hindi.strings; sourceTree = "<group>"; };
+		6AB9CD8928BF09BC00BBD1D9 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
+		6AB9CD8B28BF09C500BBD1D9 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		6AB9CD8D28BF09D200BBD1D9 /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
+		6AB9CD8F28BF09DA00BBD1D9 /* SettingsViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewBuilder.swift; sourceTree = "<group>"; };
+		6AB9CD9228BF0D4200BBD1D9 /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
 		6ABBF83828B1BF1A00DCEFF3 /* CartItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemModel.swift; sourceTree = "<group>"; };
 		6ABBF83B28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCartItemUseCase.swift; sourceTree = "<group>"; };
 		6ABBF83D28B1C31C00DCEFF3 /* AddCartItemUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCartItemUseCase.swift; sourceTree = "<group>"; };
@@ -257,9 +267,29 @@
 			children = (
 				6AB9CD8228BEF35800BBD1D9 /* Localization.swift */,
 				6AB9CD8328BEF35800BBD1D9 /* English.strings */,
-				6AB9CD8428BEF35800BBD1D9 /* Localizable.strings */,
+				6AB9CD8428BEF35800BBD1D9 /* Hindi.strings */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		6AB9CD8828BF09A700BBD1D9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				6AB9CD9128BF0D3400BBD1D9 /* Views */,
+				6AB9CD8928BF09BC00BBD1D9 /* SettingsPresenter.swift */,
+				6AB9CD8B28BF09C500BBD1D9 /* SettingsController.swift */,
+				6AB9CD8D28BF09D200BBD1D9 /* SettingsRouter.swift */,
+				6AB9CD8F28BF09DA00BBD1D9 /* SettingsViewBuilder.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		6AB9CD9128BF0D3400BBD1D9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6AB9CD9228BF0D4200BBD1D9 /* LanguageCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		6ABBF83628B1BECC00DCEFF3 /* DomainLayer */ = {
@@ -381,6 +411,7 @@
 		6AECDD9928AD15C600CBE78D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				6AB9CD8828BF09A700BBD1D9 /* Settings */,
 				6AEE150028B368A80052E3EE /* CartItem */,
 				6ABBF83F28B1C88200DCEFF3 /* AddCartItem */,
 				6A61F4BE28ADED01003FDF96 /* CartList */,
@@ -548,7 +579,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AECDD7528AD14B000CBE78D /* LaunchScreen.storyboard in Resources */,
-				6AB9CD8728BEF35800BBD1D9 /* Localizable.strings in Resources */,
+				6AB9CD8728BEF35800BBD1D9 /* Hindi.strings in Resources */,
 				6AECDD7228AD14B000CBE78D /* Assets.xcassets in Resources */,
 				6AB9CD8628BEF35800BBD1D9 /* English.strings in Resources */,
 			);
@@ -583,6 +614,7 @@
 				6A81CD1928B3970C009648B7 /* UIView.swift in Sources */,
 				6AEE150428B3694B0052E3EE /* CartItemController.swift in Sources */,
 				6AEE150228B369430052E3EE /* CartItemPresenter.swift in Sources */,
+				6AB9CD9328BF0D4200BBD1D9 /* LanguageCell.swift in Sources */,
 				6AECDD6628AD14AD00CBE78D /* AppDelegate.swift in Sources */,
 				6A61F4C028ADED01003FDF96 /* CartListController.swift in Sources */,
 				6A61F4C328ADEDF3003FDF96 /* NavigationController.swift in Sources */,
@@ -591,10 +623,14 @@
 				6ABBF84328B1CC1C00DCEFF3 /* AddItemPresenter.swift in Sources */,
 				6AEE150628B369540052E3EE /* CartItemRouter.swift in Sources */,
 				6A3AAACF28AE382700ACA759 /* CartItem.swift in Sources */,
+				6AB9CD8C28BF09C500BBD1D9 /* SettingsController.swift in Sources */,
 				6ABBF83C28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift in Sources */,
+				6AB9CD8E28BF09D200BBD1D9 /* SettingsRouter.swift in Sources */,
 				6A439BBF28B1097D005C29AE /* CartListFooter.swift in Sources */,
 				6A3AAAD528AE413F00ACA759 /* LocalCartItemRepository.swift in Sources */,
 				6ABBF84828B1D2F500DCEFF3 /* AddItemRouter.swift in Sources */,
+				6AB9CD8A28BF09BC00BBD1D9 /* SettingsPresenter.swift in Sources */,
+				6AB9CD9028BF09DA00BBD1D9 /* SettingsViewBuilder.swift in Sources */,
 				6ABBF83928B1BF1A00DCEFF3 /* CartItemModel.swift in Sources */,
 				6AEE150828B3695D0052E3EE /* CartItemViewBuilder.swift in Sources */,
 				6ABBF84128B1CBD800DCEFF3 /* AddItemController.swift in Sources */,
