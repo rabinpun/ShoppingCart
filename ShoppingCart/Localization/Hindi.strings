@@ -1,0 +1,39 @@
+/*
+  Hindi.strings
+  Shopping Cart
+
+ Created by ebpearls on 31/08/2022.
+  
+*/
+
+"APP_NAME" = "ShoppingCart";
+"OK" = "ठीक";
+"CANCEL" = "रद्द";
+"DELETE" = "मिटायें";
+"TAKE_PHOTO" = "फोटो लें";
+"OPEN_GALLERY" = "गैलरी खोलें";
+"SETTING" = "स्थापना";
+"QUANTITY_IS_ZERO" = "मात्रा शून्य है।";
+"DO_YOU_WANT_TO_DELETE_THIS_ITEM" = "आप इस आइटम को मिटाना चाहते हैं?";
+"PRODUCT_DETAIL" = "वास्तुकी बारीकी";
+"PRODUCT_DESCRIPTION" = "%@ एक बहुत अच्छा उत्पाद है। लोरेम इप्सम डोलर सिट एमेट, कॉन्सेक्टेटूर एडिपिसिसिंग एलीट। डोनेक प्रीटियम टर्पिस ऑग्यू, एसी पुल्विनर उरना ब्लैंडिट इगेट। सेड सेड निस्ल।";
+"ITEM_NAME" = "वस्तुका नाम";
+"PRICE" = "मोल";
+"QUANTITY" = "मात्रा";
+"TAX" = "कर";
+"ENTER_PLACEHOLDER" = "%@ दर्ज करें...";
+"ADD_PRODUCT_TO_THE_CART" = "कार्टमें उत्पाद जोड़ें";
+"CREATE_ITEM" = "उत्पाद बनाएं";
+"PLEASE_ALLOW_CAMERA_ACCESS" = "कृपया कैमरा एक्सेस की अनुमति दें...";
+"IS_EMPTY" = "%@ खाली है।";
+"IS_VALID" = "%@ अमान्य है।";
+"ERROR" = "गलती";
+"ITEM" = "वस्तु";
+"TOTAL" = "कुल";
+"GRAND_TOTAL" = "कुल योग: ";
+"CONTINUE_PAYMENT" = "भुगतान जारी रखें";
+"USER_NAME" = "जॉन डो";
+"USER_ADDRESS" = "काठमांडू, नेपाल";
+"YOUR_ORDERS" = "आपका ऑर्डर";
+"NO_ITEMS_IN_CART" = "कार्टमें कोई वस्तु नहीं है।";
+"FAILED_TO_FETCH_CART_ITEMS" = "कार्ट वस्तु प्राप्त करने में विफल।";
