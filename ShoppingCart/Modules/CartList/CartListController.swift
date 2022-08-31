@@ -33,7 +33,7 @@ final class CartListController: UIViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = .white
-        title = "Your orders"
+        title = LocalizedKey.yourOrders.value
         presenter.setup()
         setupNavigationButtons()
         addTableView()
@@ -105,7 +105,7 @@ extension CartListController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        listIsEmpty ? tableView.setEmptyMessage("No items in cart.") : tableView.restore()
+        listIsEmpty ? tableView.setEmptyMessage(LocalizedKey.cartEmpty.value) : tableView.restore()
         return presenter.numberOfItems()
     }
     

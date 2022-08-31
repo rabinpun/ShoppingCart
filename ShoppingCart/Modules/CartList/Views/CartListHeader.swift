@@ -24,6 +24,7 @@ class CartListHeader: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .white
+        quantityLabel.textAlignment = .center
         
         contentView.addSubview(itemNameLabel)
         contentView.addSubview(priceLabel)
@@ -60,10 +61,10 @@ class CartListHeader: UITableViewHeaderFooterView {
     
     /// Configure the header vuew
     func configure() {
-        itemNameLabel.text = "Item"
-        priceLabel.text = "Price"
-        quantityLabel.text = "Quantity"
-        totalAmountLabel.text = "Total"
+        itemNameLabel.text = LocalizedKey.item.value
+        priceLabel.text = LocalizedKey.price.value
+        quantityLabel.text = LocalizedKey.quantity.value
+        totalAmountLabel.text = LocalizedKey.total.value
         generateChildrens()
     }
 }

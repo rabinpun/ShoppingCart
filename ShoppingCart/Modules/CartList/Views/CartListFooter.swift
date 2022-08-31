@@ -10,8 +10,8 @@ import UIKit
 class CartListFooter: UITableViewHeaderFooterView {
     
     private let buttonHeight: CGFloat = 40
-    lazy var grandTotalLabel: UILabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold), textColor: .white, text: "Grand Total: ")
-    private lazy var payButton = UIFactory.textButton(text: "Continue Payment", textColor: .systemGreen, backgroundColor: .white, cornerRadius: buttonHeight * 0.25, borderColor: .systemGreen)
+    lazy var grandTotalLabel: UILabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.regular.value, weight: .semibold), textColor: .white, text: LocalizedKey.grandTotal.value)
+    private lazy var payButton = UIFactory.textButton(text: LocalizedKey.continuePayment.value, textColor: .systemGreen, backgroundColor: .white, cornerRadius: buttonHeight * 0.25, borderColor: .systemGreen)
     lazy var totalAmountLabel: UILabel = UIFactory.label(textColor: .white)
     
     override init(reuseIdentifier: String?) {

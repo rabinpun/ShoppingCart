@@ -42,7 +42,7 @@ enum CartListError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .quantityIsZero:
-            return "Do you want to delete this item from cart?"
+            return LocalizedKey.doYouWantToDeleteThisItem.value
         }
     }
 }
@@ -98,7 +98,7 @@ final class CartListPresenter: NSObject, CartListPresentable {
             try fetchCartItems()
             delegate?.loadItemList()
         } catch {
-            delegate?.showAlert(title: "Error", message: "Failed to fech cart items.", alertActions: [.ok(nil)])
+            delegate?.showAlert(title: LocalizedKey.error.value, message: LocalizedKey.failedToFetchCartItems.value, alertActions: [.ok(nil)])
         }
     }
     
@@ -139,7 +139,7 @@ final class CartListPresenter: NSObject, CartListPresentable {
             try updateItemIfValid(itemModel)
             grandTotalAmount += (increase ? 1 : -1) * itemModel.price
         } catch {
-            delegate?.showAlert(title: "Quantity is zero.", message: error.localizedDescription, alertActions: [.delete(deleteCurrentItem), .cancel])
+            delegate?.showAlert(title: LocalizedKey.quantityIsZero.value, message: error.localizedDescription, alertActions: [.delete(deleteCurrentItem), .cancel])
         }
     }
     

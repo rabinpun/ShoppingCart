@@ -28,7 +28,7 @@ final class CartItemController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor(named: "AppGray")
-        title = "Product Detail"
+        title = LocalizedKey.productDetail.value
         setupButtons()
         addViews()
     }

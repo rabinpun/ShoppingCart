@@ -64,7 +64,7 @@ final class CartItemPresenter: NSObject, CartItemPresentable {
             try updateItemIfValid(productModel)
             router.popView()
         } catch {
-            delegate?.showAlert(title: "Quantity is zero.", message: error.localizedDescription, alertActions: [.delete(deleteProduct), .cancel])
+            delegate?.showAlert(title: LocalizedKey.quantityIsZero.value, message: error.localizedDescription, alertActions: [.delete(deleteProduct), .cancel])
         }
     }
     
@@ -75,7 +75,7 @@ final class CartItemPresenter: NSObject, CartItemPresentable {
     }
     
     func deleteItem() {
-        delegate?.showAlert(title: "ShoppingCart", message: "Do you want to delete this item?", alertActions: [.delete(deleteProduct), .cancel])
+        delegate?.showAlert(title: LocalizedKey.appName.value, message: LocalizedKey.doYouWantToDeleteThisItem.value, alertActions: [.delete(deleteProduct), .cancel])
     }
     
     func goBack() {

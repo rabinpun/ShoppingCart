@@ -30,9 +30,9 @@ enum AddItemError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .empty(let parameterType):
-            return "\(parameterType.rawValue) is empty."
+            return LocalizedKey.isEmpty(parameterType.rawValue).value
         case .invalid(let parameterType):
-            return "\(parameterType.rawValue) is invalid."
+            return LocalizedKey.isInvalid(parameterType.rawValue).value
         }
     }
 }
@@ -56,7 +56,7 @@ final class AddItemPresenter: AddItemPresentable {
         do {
             try createItem(parameters)
         } catch {
-            delegate?.showAlert(title: "Error", message: error.localizedDescription, alertActions: [AlertAction.ok(nil)])
+            delegate?.showAlert(title: LocalizedKey.error.value, message: error.localizedDescription, alertActions: [AlertAction.ok(nil)])
         }
     }
     

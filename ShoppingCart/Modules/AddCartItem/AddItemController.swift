@@ -15,18 +15,18 @@ enum TextFieldType: CaseIterable {
     var title: String {
         switch self {
         case .name:
-            return "Item name:"
+            return "\(LocalizedKey.itemName.value):"
         case .price:
-            return "Price:"
+            return "\(LocalizedKey.price.value):"
         case .quantity:
-            return "Quantity:"
+            return "\(LocalizedKey.quantity.value):"
         case .tax:
-            return "Tax:"
+            return "\(LocalizedKey.tax.value):"
         }
     }
     
     var placeholder: String {
-        return "Enter \(title.lowercased())..."
+        return LocalizedKey.enterPlaceholder(title.lowercased()).value
     }
     
     var keyboardType: UIKeyboardType {
@@ -49,14 +49,14 @@ final class AddItemController: UIViewController {
     var presenter: AddItemPresentable!
     
     private let textFields = TextFieldType.allCases
-    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .black, text: "Add product to the cart")
+    private lazy var titleLabel = UIFactory.label(font: .systemFont(ofSize: .FontSize.medium.rawValue, weight: .semibold), textColor: .black, text: LocalizedKey.addProductToCart.value)
     private lazy var textFieldStackView: UIStackView = {
         let stackView = UIFactory.stackView(axis: .vertical)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     private lazy var interactiveImageView = { InteractiveImageView() }()
-    private lazy var createButton = UIFactory.textButton(text: "Create item", cornerRadius: buttonHeight * 0.25)
+    private lazy var createButton = UIFactory.textButton(text: LocalizedKey.createItem.value, cornerRadius: buttonHeight * 0.25)
     private var alertCancellable: AnyCancellable?
     private let imagePickerController = UIImagePickerController()
     
@@ -178,7 +178,7 @@ extension AddItemController: AddItemPresenterDelegate {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
-        alertCancellable = alert(title: "Shopping Cart", msg: "Please allow camera access...", actions: [.setting(openSettings), .cancel]).sink { alert in
+        alertCancellable = alert(title: LocalizedKey.appName.value, msg: LocalizedKey.plaseAllowCameraAccess.value, actions: [.setting(openSettings), .cancel]).sink { alert in
             alert.actionClosure?()
         }
     }

@@ -1,0 +1,39 @@
+/*
+  English.strings
+  Shopping Cart
+
+  Created by ebpearls on 31/08/2022.
+  
+*/
+
+"APP_NAME" = "ShoppingCart";
+"OK" = "Ok";
+"CANCEL" = "Cancel";
+"DELETE" = "Delete";
+"TAKE_PHOTO" = "Take photo";
+"OPEN_GALLERY" = "Open gallery";
+"SETTING" = "Setting";
+"QUANTITY_IS_ZERO" = "Quantity is zero.";
+"DO_YOU_WANT_TO_DELETE_THIS_ITEM" = "Do you want to delete this item?";
+"PRODUCT_DETAIL" = "Product Detail";
+"PRODUCT_DESCRIPTION" = "%@ is a great product. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium turpis augue, ac pulvinar urna blandit eget. Sed sed nisl.";
+"ITEM_NAME" = "Item name";
+"PRICE" = "Price";
+"QUANTITY" = "Quantity";
+"TAX" = "Tax";
+"ENTER_PLACEHOLDER" = "Enter %@...";
+"ADD_PRODUCT_TO_THE_CART" = "Add product to the cart";
+"CREATE_ITEM" = "Create item";
+"PLEASE_ALLOW_CAMERA_ACCESS" = "Please allow camera access...";
+"IS_EMPTY" = "%@ is empty.";
+"IS_VALID" = "%@ is invalid.";
+"ERROR" = "Error";
+"ITEM" = "Item";
+"TOTAL" = "Total";
+"GRAND_TOTAL" = "Grand Total: ";
+"CONTINUE_PAYMENT" = "Continue Payment";
+"USER_NAME" = "John Doe";
+"USER_ADDRESS" = "Kathmandu, Nepal";
+"YOUR_ORDERS" = "Your orders";
+"NO_ITEMS_IN_CART" = "No items in cart.";
+"FAILED_TO_FETCH_CART_ITEMS" = "Failed to fech cart items.";

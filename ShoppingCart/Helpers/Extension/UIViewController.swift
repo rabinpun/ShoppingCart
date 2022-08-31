@@ -23,17 +23,17 @@ enum AlertAction: AlertActionable {
     var title: String {
         switch self {
         case .ok:
-            return "Ok"
+            return LocalizedKey.ok.value
         case .cancel:
-            return "Cancel"
+            return LocalizedKey.cancel.value
         case .delete:
-            return "Delete"
+            return LocalizedKey.delete.value
         case .takePhoto:
-            return "Take photo"
+            return LocalizedKey.takePhoto.value
         case .openGallery:
-            return "Open gallery"
+            return LocalizedKey.openGallery.value
         case .setting:
-            return "Setting"
+            return LocalizedKey.setting.value
         }
     }
     var style: UIAlertAction.Style {
