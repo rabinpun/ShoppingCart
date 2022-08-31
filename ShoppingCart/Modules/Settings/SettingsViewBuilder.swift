@@ -9,6 +9,12 @@ import UIKit
 
 // The builder of CartItem Module
 struct SettingsViewBuilder: ViewBuilder {
+    
+    private let languageManager: LanguageManagable
+    
+    init(languageManager: LanguageManagable) {
+        self.languageManager = languageManager
+    }
 
     /// builds ViewController and injects dependency of components.
     func build() -> SettingsController {
@@ -18,7 +24,7 @@ struct SettingsViewBuilder: ViewBuilder {
         /// presenter dependencies
         let router =  SettingsRouter(performer: vc)
         
-        let presenter = SettingsPresenter(router: router)
+        let presenter = SettingsPresenter(router: router, languageManager: languageManager)
         presenter.delegate = vc
         vc.presenter = presenter
         return vc

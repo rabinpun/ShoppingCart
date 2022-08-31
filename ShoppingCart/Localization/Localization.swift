@@ -14,7 +14,7 @@ private protocol Localizable {
 }
 
 private struct Localizer {
-    static func localized(key: Localizable, tableName: String? = "Hindi", bundle: Bundle = .main, value: String = "", comment: String = "", param: CVarArg...) -> String {
+    static func localized(key: Localizable, tableName: String? = LanguageManager.currentLanguage.rawValue.capitalized, bundle: Bundle = .main, value: String = "", comment: String = "", param: CVarArg...) -> String {
         let localizedString = NSLocalizedString(key.key, tableName: tableName, bundle: bundle, value: value, comment: comment)
         let value = withVaList(param) { (data) -> String in
             NSString(format: localizedString, locale: NSLocale.current, arguments: data) as String
@@ -65,6 +65,10 @@ enum LocalizedKey: Localizable {
     case yourOrders
     case cartEmpty
     case failedToFetchCartItems
+    case english
+    case hindi
+    case selectLanguage
+    case selectLanguageMessage(String)
     
     /// The key to fetch the corresponding localized string
     var key: String {
@@ -100,12 +104,16 @@ enum LocalizedKey: Localizable {
         case .yourOrders: return "YOUR_ORDERS"
         case .cartEmpty: return "NO_ITEMS_IN_CART"
         case .failedToFetchCartItems: return "FAILED_TO_FETCH_CART_ITEMS"
+        case .english: return "ENGLISH"
+        case .hindi: return "HINDI"
+        case .selectLanguage: return "SELECT_LANGUAGE"
+        case .selectLanguageMessage: return "SELECTION_MESSAGE"
         }
     }
     
     var value: String {
         switch self {
-        case .isEmpty(let param), .isInvalid(let param), .productDescription(let param), .enterPlaceholder(let param):
+        case .isEmpty(let param), .isInvalid(let param), .productDescription(let param), .enterPlaceholder(let param), .selectLanguageMessage(let param):
             return Localizer.localized(key: self, param: param)
         default:
             return Localizer.localized(key: self)

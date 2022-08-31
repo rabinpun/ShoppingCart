@@ -29,6 +29,7 @@
 		6AB9CD8E28BF09D200BBD1D9 /* SettingsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8D28BF09D200BBD1D9 /* SettingsRouter.swift */; };
 		6AB9CD9028BF09DA00BBD1D9 /* SettingsViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD8F28BF09DA00BBD1D9 /* SettingsViewBuilder.swift */; };
 		6AB9CD9328BF0D4200BBD1D9 /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD9228BF0D4200BBD1D9 /* LanguageCell.swift */; };
+		6AB9CD9528BF1F5000BBD1D9 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB9CD9428BF1F5000BBD1D9 /* LanguageManager.swift */; };
 		6ABBF83928B1BF1A00DCEFF3 /* CartItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83828B1BF1A00DCEFF3 /* CartItemModel.swift */; };
 		6ABBF83C28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83B28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift */; };
 		6ABBF83E28B1C31C00DCEFF3 /* AddCartItemUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABBF83D28B1C31C00DCEFF3 /* AddCartItemUseCase.swift */; };
@@ -100,6 +101,7 @@
 		6AB9CD8D28BF09D200BBD1D9 /* SettingsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRouter.swift; sourceTree = "<group>"; };
 		6AB9CD8F28BF09DA00BBD1D9 /* SettingsViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewBuilder.swift; sourceTree = "<group>"; };
 		6AB9CD9228BF0D4200BBD1D9 /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
+		6AB9CD9428BF1F5000BBD1D9 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
 		6ABBF83828B1BF1A00DCEFF3 /* CartItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemModel.swift; sourceTree = "<group>"; };
 		6ABBF83B28B1BF8000DCEFF3 /* UpdateCartItemUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCartItemUseCase.swift; sourceTree = "<group>"; };
 		6ABBF83D28B1C31C00DCEFF3 /* AddCartItemUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCartItemUseCase.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				6AE0DEB828AF3A8700C731F2 /* Factory */,
 				6A3AAAC528AE330600ACA759 /* Extension */,
 				6ABBF85028B241E800DCEFF3 /* ImageManager.swift */,
+				6AB9CD9428BF1F5000BBD1D9 /* LanguageManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -613,6 +616,7 @@
 				6ABBF85128B241E800DCEFF3 /* ImageManager.swift in Sources */,
 				6A81CD1928B3970C009648B7 /* UIView.swift in Sources */,
 				6AEE150428B3694B0052E3EE /* CartItemController.swift in Sources */,
+				6AB9CD9528BF1F5000BBD1D9 /* LanguageManager.swift in Sources */,
 				6AEE150228B369430052E3EE /* CartItemPresenter.swift in Sources */,
 				6AB9CD9328BF0D4200BBD1D9 /* LanguageCell.swift in Sources */,
 				6AECDD6628AD14AD00CBE78D /* AppDelegate.swift in Sources */,
@@ -820,7 +824,7 @@
 				DEVELOPMENT_TEAM = K7AB4TLJ34;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShoppingCart/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = FoodieApp;
+				INFOPLIST_KEY_CFBundleDisplayName = ShoppingCart;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera access for Shopping Cart";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow photos access for Shopping Cart";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -851,7 +855,7 @@
 				DEVELOPMENT_TEAM = K7AB4TLJ34;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShoppingCart/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = FoodieApp;
+				INFOPLIST_KEY_CFBundleDisplayName = ShoppingCart;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera access for Shopping Cart";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please allow photos access for Shopping Cart";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

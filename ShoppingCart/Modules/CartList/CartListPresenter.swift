@@ -7,10 +7,12 @@
 
 import UIKit
 import CoreData
+import Combine
 
 /// Protocol for CartList Presenter delegate
 protocol CartListPresenterDelegate: UIViewController {
     func loadItemList()
+    func updateUIText()
     func showAlert(title: String, message: String, alertActions: [AlertAction])
     
     func itemsWillUpdate()
@@ -31,9 +33,10 @@ protocol CartListPresentable {
     func itemModelFor(at index: Int) -> CartItem.Object?
     func changeItemQuantityFor(_ index: Int, increase: Bool)
     func getGrandTotal() -> Float
-    func addItem()
-    
     func imageFor(_ name: String) -> UIImage?
+    
+    func addItem()
+    func showSettings()
 }
 
 enum CartListError: LocalizedError {
@@ -58,6 +61,7 @@ final class CartListPresenter: NSObject, CartListPresentable {
     private let router: CartListRoutable
     private let database: StorageProvider
     private let imageManager: ImageManagable
+    private let languageManager: LanguageManagable
     
     private var cartItems: [CartItem] {
         var cartItems = [CartItem]()
@@ -86,14 +90,20 @@ final class CartListPresenter: NSObject, CartListPresentable {
         }
     }
     
-    init(router: CartListRoutable, updatecartItemUseCase: UpdateCartItemUseCase, database: StorageProvider, imageManager: ImageManagable) {
+    private var languageSelectionCancellable: AnyCancellable?
+    
+    init(router: CartListRoutable, updatecartItemUseCase: UpdateCartItemUseCase, database: StorageProvider, imageManager: ImageManagable, languageManager: LanguageManagable) {
         self.router = router
         self.updatecartItemUseCase = updatecartItemUseCase
         self.database = database
         self.imageManager = imageManager
+        self.languageManager = languageManager
     }
 
     func setup() {
+        languageSelectionCancellable = languageManager.selectedLanguage.sink(receiveValue: { [weak self] _ in
+            self?.delegate?.updateUIText()
+        })
         do {
             try fetchCartItems()
             delegate?.loadItemList()
@@ -214,6 +224,10 @@ extension CartListPresenter {
     
     func addItem() {
         router.presentAddItemView(with: database, imageManager: imageManager)
+    }
+    
+    func showSettings() {
+        router.pushDetailSettingsView(languageManger: languageManager)
     }
     
     func imageFor(_ name: String) -> UIImage? {

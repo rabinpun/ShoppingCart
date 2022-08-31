@@ -7,34 +7,55 @@
 
 import UIKit
 
+enum Image {
+    case systemImage(String), assetImage(String)
+}
+
 extension UIImage {
     
+    private static func image(_ image: Image) -> UIImage {
+        switch image {
+        case .systemImage(let name):
+            return UIImage(systemName: name)!
+        case .assetImage(let name):
+            return UIImage(named: name)!
+        }
+    }
+    
     static var defaultPhoto: UIImage {
-        UIImage(systemName: "photo")!
+        image(.systemImage("photo"))
     }
     
     static var plus: UIImage {
-        UIImage(systemName: "plus")!
+        image(.systemImage("plus"))
     }
     
     static var minus: UIImage {
-        UIImage(systemName: "minus")!
+        image(.systemImage("minus"))
     }
     
     static var multiply: UIImage {
-        UIImage(systemName: "multiply")!
+        image(.systemImage("multiply"))
     }
     
     static var profileImage: UIImage {
-        UIImage(named: "profileImage")!
+        image(.assetImage("profileImage"))
     }
     
     static var chevronLeft: UIImage {
-        UIImage(systemName: "chevron.left")!
+        image(.systemImage("chevron.left"))
     }
     
     static var delete: UIImage {
-        UIImage(systemName: "trash")!
+        image(.systemImage("trash"))
+    }
+    
+    static var settings: UIImage {
+        image(.systemImage("gear"))
+    }
+    
+    static func flagImage(name: String) -> UIImage {
+        image(.assetImage(name))
     }
     
 }

@@ -45,6 +45,11 @@ final class CartListHeaderView: UIView {
         
     }
     
+    func updateUIText() {
+        nameLabel.text = LocalizedKey.userName.value
+        descripionLabel.text = LocalizedKey.userAddress.value
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

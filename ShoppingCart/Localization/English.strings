@@ -37,3 +37,7 @@
 "YOUR_ORDERS" = "Your orders";
 "NO_ITEMS_IN_CART" = "No items in cart.";
 "FAILED_TO_FETCH_CART_ITEMS" = "Failed to fech cart items.";
+"ENGLISH" = "English";
+"HINDI" = "Hindi";
+"SELECT_LANGUAGE" = "Select language";
+"SELECTION_MESSAGE" = "Do you want to use %@ throughout your app?";

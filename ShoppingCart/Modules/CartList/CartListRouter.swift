@@ -11,6 +11,7 @@ import UIKit
 protocol CartListRoutable {
     func presentAddItemView(with database: StorageProvider, imageManager: ImageManagable)
     func pushDetailView(with cartItem: CartItem.Object, image: UIImage, updateItemUseCase: UpdateCartItemUseCase)
+    func pushDetailSettingsView(languageManger: LanguageManagable)
 }
 
 /// Router for cartlist
@@ -30,6 +31,11 @@ struct CartListRouter: CartListRoutable {
     func presentAddItemView(with database: StorageProvider, imageManager: ImageManagable) {
         let vc = AddItemViewBuilder(database: database, imageManager: imageManager).build()
         self.performer.present(vc, animated: true)
+    }
+    
+    func pushDetailSettingsView(languageManger: LanguageManagable) {
+        let vc = SettingsViewBuilder(languageManager: languageManger).build()
+        self.performer.navigationController?.pushViewController(vc, animated: true)
     }
     
 }

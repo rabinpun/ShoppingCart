@@ -27,7 +27,7 @@ final class SettingsController: UIViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = .white
-        title = LocalizedKey.yourOrders.value
+        title = LocalizedKey.selectLanguage.value
         setupNavigationButtons()
         addTableView()
     }

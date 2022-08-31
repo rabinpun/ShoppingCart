@@ -55,10 +55,19 @@ final class CartListController: UIViewController {
         rightBarButton.tintColor = .black
         navigationItem.rightBarButtonItem = rightBarButton
         
+        
+        let leftBarButton = UIBarButtonItem(image: .settings, style: .done, target: self, action: #selector(leftBarButtonClicked))
+        leftBarButton.tintColor = .black
+        navigationItem.leftBarButtonItem = leftBarButton
+        
     }
     
     @objc private func rightBarButtonClicked() {
         presenter.addItem()
+    }
+    
+    @objc private func leftBarButtonClicked() {
+        presenter.showSettings()
     }
     
 }
@@ -68,6 +77,13 @@ extension CartListController: CartListPresenterDelegate {
     func loadItemList() {
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    func updateUIText() {
+        title = LocalizedKey.yourOrders.value
+        tableView.reloadData()
+        guard let headerView = tableView.tableHeaderView as? CartListHeaderView else { return }
+        headerView.updateUIText()
     }
     
     func showAlert(title: String, message: String, alertActions: [AlertAction]) {

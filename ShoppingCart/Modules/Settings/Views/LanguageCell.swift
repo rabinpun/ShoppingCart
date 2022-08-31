@@ -58,7 +58,7 @@ class LanguageCell: UITableViewCell {
     func configure(with language: Language) {
         selectionStyle = .gray
         
-        itemNameLabel.text = language.rawValue.capitalized
+        itemNameLabel.text = language.title
         itemImageView.image = language.image
     }
 }

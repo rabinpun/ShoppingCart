@@ -37,3 +37,7 @@
 "YOUR_ORDERS" = "आपका ऑर्डर";
 "NO_ITEMS_IN_CART" = "कार्टमें कोई वस्तु नहीं है।";
 "FAILED_TO_FETCH_CART_ITEMS" = "कार्ट वस्तु प्राप्त करने में विफल।";
+"ENGLISH" = "अंग्रेज़ी";
+"HINDI" = "हिन्दी";
+"SELECT_LANGUAGE" = "भाषा का चयन करें";
+"SELECTION_MESSAGE" = "क्या आप अपने पूरे ऐप में %@ का उपयोग करना चाहते हैं?";
