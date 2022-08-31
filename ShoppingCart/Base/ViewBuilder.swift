@@ -11,13 +11,13 @@ protocol ViewBuilder {
     
     associatedtype ViewType: UIViewController
     
-    func build() -> ViewType
-    func buildWithNavigationController() -> NavigationController
+    func build(deepLink: DeepLink?) -> ViewType
+    func buildWithNavigationController(deepLink: DeepLink?) -> NavigationController
 }
 
 extension ViewBuilder {
     
-    func buildWithNavigationController() -> NavigationController {
-        NavigationController(appearance: .getAppNavigationBarAppearance(), rootController: build())
+    func buildWithNavigationController(deepLink: DeepLink?) -> NavigationController {
+        NavigationController(appearance: .getAppNavigationBarAppearance(), rootController: build(deepLink: deepLink))
     }
 }

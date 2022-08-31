@@ -12,19 +12,21 @@ struct AddItemViewBuilder: ViewBuilder {
     
     private let database: StorageProvider
     private let imageManager: ImageManagable
+    private var deepLink: DeepLink?
     
-    init(database: StorageProvider, imageManager: ImageManagable) {
+    init(database: StorageProvider, imageManager: ImageManagable, deepLink: DeepLink?) {
         self.database = database
         self.imageManager = imageManager
+        self.deepLink = deepLink
     }
 
     /// builds ViewController and injects dependency of components.
-    func build() -> AddItemController {
+    func build(deepLink: DeepLink?) -> AddItemController {
         
         let vc = AddItemController()
         
         /// presenter dependencies
-        let router =  AddItemRouter(performer: vc)
+        let router =  AddItemRouter(performer: vc, deepLink: deepLink)
         let localRepository = LocalRepository<CartItem>(storageProvider: database)
         let addCartItemUseCase = AddCartItemUseCase(localCartItemRepository: localRepository)
         

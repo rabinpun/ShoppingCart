@@ -21,7 +21,7 @@ struct CartItemViewBuilder: ViewBuilder {
     }
 
     /// builds ViewController and injects dependency of components.
-    func build() -> CartItemController {
+    func build(deepLink: DeepLink?) -> CartItemController {
         
         let vc = CartItemController()
         

@@ -101,6 +101,16 @@ final class CartListPresenter: NSObject, CartListPresentable {
     }
 
     func setup() {
+        
+        router.handleDeepLink { deepLink in
+            if let deepLink = deepLink {
+                switch deepLink {
+                case .addItem:
+                    router.presentAddItemView(with: database, imageManager: imageManager)
+                }
+            }
+        }
+        
         languageSelectionCancellable = languageManager.selectedLanguage.sink(receiveValue: { [weak self] _ in
             self?.delegate?.updateUIText()
         })

@@ -25,7 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func setupInitalView (windowScens: UIWindowScene) {
         window = UIWindow(windowScene: windowScens)
-        window!.rootViewController = CartListViewBuilder(database: database).buildWithNavigationController()
+        let deepLink = DeepLink.addItem(CartItem.Object(id: "", name: "Pizza", image: "pizza", tax: 15, quantity: 10, price: 400, updatedAt: Date()))
+        window!.rootViewController = CartListViewBuilder(database: database).buildWithNavigationController(deepLink: deepLink)
         window!.makeKeyAndVisible()
     }
 

@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum DeepLink {
+    case addItem(CartItem.Object)
+}
+
 /// The builder of CartList Module
 struct CartListViewBuilder: ViewBuilder {
     
@@ -17,12 +21,12 @@ struct CartListViewBuilder: ViewBuilder {
     }
 
     /// builds ViewController and injects dependency of components.
-    func build() -> CartListController {
+    func build(deepLink: DeepLink?) -> CartListController {
         
         let vc = CartListController()
         
         /// presenter dependencies
-        let router =  CartListRouter(performer: vc)
+        let router =  CartListRouter(performer: vc, deepLink: deepLink)
         let localRepository = LocalRepository<CartItem>(storageProvider: database)
         let updateCartItemUsecase = UpdateCartItemUseCase(localCartItemRepository: localRepository)
         let imageManager = ImageManager()

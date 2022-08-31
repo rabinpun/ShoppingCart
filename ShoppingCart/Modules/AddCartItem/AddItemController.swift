@@ -70,6 +70,7 @@ final class AddItemController: UIViewController {
         
         addViews()
         createButton.addTarget(self, action: #selector(createButtonClicked), for: .touchUpInside)
+        presenter.setUp()
     }
     
     private func addViews() {
@@ -125,6 +126,20 @@ final class AddItemController: UIViewController {
 }
 
 extension AddItemController: AddItemPresenterDelegate {
+    
+    func populateUI(with object: CartItem.Object) {
+        let stackViews = textFieldStackView.arrangedSubviews as! [UIStackView]
+        let textFields = stackViews.reduce([Textfield](), { $0 + $1.arrangedSubviews.filter({ $0 is Textfield }) as! [Textfield] })
+        textFields[0].text = object.name
+        textFields[1].text = "\(object.price)"
+        textFields[2].text = "\(object.quantity)"
+        textFields[3].text = "\(object.tax)"
+        
+        if let imageName = object.image, let image = presenter.imageFor(imageName) {
+            addImage(image)
+        }
+    }
+    
     func showAlert(title: String, message: String, alertActions: [AlertAction]) {
         alertCancellable = alert(title: title, msg: message, actions: alertActions).sink { alert in
             alert.actionClosure?()
@@ -189,13 +204,16 @@ extension AddItemController: UIImagePickerControllerDelegate, UINavigationContro
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editedImage = info[.editedImage] as? UIImage {
-            interactiveImageView.setImage(editedImage)
-            presenter.addImage(editedImage)
+            addImage(editedImage)
         } else if let originalImage = info[.originalImage] as? UIImage {
-            interactiveImageView.setImage(originalImage)
-            presenter.addImage(originalImage)
+            addImage(originalImage)
         }
         dismiss(animated: true)
+    }
+    
+    private func addImage(_ image: UIImage) {
+        interactiveImageView.setImage(image)
+        presenter.addImage(image)
     }
     
 }

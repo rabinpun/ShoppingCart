@@ -9,6 +9,7 @@ import UIKit
 
 /// Protocol for AddItem Presenter delegate
 protocol AddItemPresenterDelegate: UIViewController {
+    func populateUI(with object: CartItem.Object)
     func showAlert(title: String, message: String, alertActions: [AlertAction])
 }
 
@@ -18,6 +19,8 @@ protocol AddItemPresentable {
     
     func addItem(parameters: [(ParameterType,String)])
     func addImage(_ image: UIImage?)
+    func imageFor(_ name: String) -> UIImage?
+    func setUp()
 }
 
 enum ParameterType: String {
@@ -38,7 +41,7 @@ enum AddItemError: LocalizedError {
 }
 
 final class AddItemPresenter: AddItemPresentable {
-    
+
     weak var delegate: AddItemPresenterDelegate?
     
     private let router: AddItemRoutable
@@ -50,6 +53,18 @@ final class AddItemPresenter: AddItemPresentable {
         self.addCartItemUseCase = addCartItemUseCase
         self.router = router
         self.imageManager = imageManager
+        
+    }
+    
+    func setUp() {
+        router.handleDeepLink { deepLink in
+            if let deepLink = deepLink {
+                switch deepLink {
+                case .addItem(let cartItem):
+                    delegate?.populateUI(with: cartItem)
+                }
+            }
+        }
     }
     
     func addItem(parameters: [(ParameterType,String)]) {
@@ -101,6 +116,10 @@ final class AddItemPresenter: AddItemPresentable {
     
     func addImage(_ image: UIImage?) {
         self.image = image
+    }
+    
+    func imageFor(_ name: String) -> UIImage? {
+        try? imageManager.getImage(name: name)
     }
     
 }

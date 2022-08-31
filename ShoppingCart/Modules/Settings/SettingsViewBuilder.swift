@@ -17,7 +17,7 @@ struct SettingsViewBuilder: ViewBuilder {
     }
 
     /// builds ViewController and injects dependency of components.
-    func build() -> SettingsController {
+    func build(deepLink: DeepLink?) -> SettingsController {
         
         let vc = SettingsController()
         
