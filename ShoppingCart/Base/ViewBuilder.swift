@@ -8,9 +8,7 @@
 import UIKit
 
 protocol ViewBuilder {
-    
     associatedtype ViewType: UIViewController
-    
     func build(deepLink: DeepLink?) -> ViewType
     func buildWithNavigationController(deepLink: DeepLink?) -> NavigationController
 }
